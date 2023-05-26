@@ -2,10 +2,10 @@
     "name": "TS-Attack25",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/main.js",
+    "main": "dist/public/main.js",
     "scripts": {
         "build": "tsc",
-        "start": "node dist/server.js"
+        "start": "node dist/public/server.js"
     },
     "dependencies": {
         "express": "^4.17.1",

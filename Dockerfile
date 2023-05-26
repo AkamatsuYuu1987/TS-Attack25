@@ -23,4 +23,4 @@ RUN npm run build
 EXPOSE 8080
 
 # コンテナ起動時に実行されるコマンド
-CMD [ "node", "dist/server.js" ]
+CMD [ "node", "public/dist/server.js" ]
