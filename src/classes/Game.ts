@@ -29,3 +29,4 @@ class Game {
         // Add logic here to validate the move and change colors as per the rules
     }
 }
+export default Game;

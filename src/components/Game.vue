@@ -15,11 +15,11 @@
 
 <script>
 import { ref } from 'vue';
-import Game from './game';
+import Game from '../classes/Game';
 
 export default {
   setup() {
-    const game = ref(new Game());
+    const game = reactive(new Game());
     const panelId = ref(0);
     const player = ref(game.players[0]);
 
