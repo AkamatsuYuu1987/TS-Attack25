@@ -11,6 +11,7 @@
         "vue": "^3.3.4"
     },
     "devDependencies": {
+        "@types/vue": "^2.0.0",
         "@vue/cli-service": "^4.5.0",
         "@vue/compiler-sfc": "^3.0.0",
         "ts-loader": "^6.2.2",
