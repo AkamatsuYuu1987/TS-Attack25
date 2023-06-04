@@ -1,5 +1,5 @@
 # ベースとなるDockerイメージの指定
-FROM node:lts
+FROM node:17
 
 # 作業ディレクトリの指定
 WORKDIR /app
