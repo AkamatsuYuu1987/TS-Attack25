@@ -1,5 +1,5 @@
 # ベースとなるDockerイメージの指定
-FROM node:17
+FROM node:lts
 
 # 作業ディレクトリの指定
 WORKDIR /app
@@ -10,14 +10,14 @@ COPY package*.json ./
 # 依存関係のインストール
 RUN npm install
 
-# ソースコードをコピー
-COPY . .
-
 # TypeScriptをJavaScriptにコンパイル
 RUN npm run build
+
+# ソースコードをコピー
+COPY . .
 
 # ポートの指定
 EXPOSE 3000
 
 # アプリケーションの起動
-CMD [ "npm", "run", "start" ]
+CMD [ "node", "dist/app.js" ]
