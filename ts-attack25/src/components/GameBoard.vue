@@ -1,7 +1,7 @@
 <!-- GameBoard.vue -->
 <template>
     <div class="game-board">
-        <GameSquare v-for="i in 25" :key="i" />
+        <GameSquare v-for="i in 25" :key="i" :number="i" />
     </div>
 </template>
 
