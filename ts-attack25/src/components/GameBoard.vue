@@ -21,5 +21,7 @@ export default {
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
     gap: 0;
+    flex-basis: 80%;
+    height: var(--game-board-height);  /* Add this */
 }
 </style>
