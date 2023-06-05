@@ -1,3 +1,4 @@
+<!-- App.vue -->
 <template>
   <div id="app">
     <div class="game-container">
@@ -27,15 +28,14 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  width: 85vw;  // 新規追加: アプリケーションの幅を指定
 }
 
 .game-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;  /* change from flex-start to stretch */
-    flex-wrap: wrap;
-    --game-board-height: 50vh;  /* Add this */
-    height: var(--game-board-height);  /* Add this */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 5vw;
+  width: 90vw;
+  margin: auto;
 }
 </style>
