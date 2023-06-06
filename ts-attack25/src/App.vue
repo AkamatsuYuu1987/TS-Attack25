@@ -1,16 +1,21 @@
 <template>
-    <div id="app">
-        <GameBoard />
+  <div id="app">
+    <div class="game-container">
+      <GameBoard />
+      <ColorCounter />
     </div>
+  </div>
 </template>
 
 <script>
 import GameBoard from './components/GameBoard.vue';
+import ColorCounter from './components/ColorCounter.vue';
 
 export default {
-    components: {
-        GameBoard
-    }
+  components: {
+    GameBoard,
+    ColorCounter
+  }
 };
 </script>
 
@@ -23,4 +28,14 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.game-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  --game-board-height: 80vh;
+  height: var(--game-board-height);
+}
+
 </style>
