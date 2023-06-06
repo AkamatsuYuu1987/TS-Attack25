@@ -1,0 +1,33 @@
+@startuml
+
+class Panel {
+  +color: string
+  +changeColor(newColor: string): void
+  +getColor(): string
+}
+
+class ColorCounter {
+  +color: string
+  +count: number
+  +increaseCount(): void
+  +decreaseCount(): void
+  +getCount(): number
+}
+
+class GameBoard {
+  +panels: Panel[25]
+  +changePanelColor(panelNumber: number, newColor: string): void
+}
+
+class GameController {
+  +gameBoard: GameBoard
+  +colorCounters: ColorCounter[4]
+  +selectColor(color: string): void
+  +selectPanel(panelNumber: number): void
+}
+
+GameBoard "1" -- "25" Panel
+GameController "1" -- "1" GameBoard
+GameController "1" -- "4" ColorCounter
+
+@enduml
