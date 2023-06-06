@@ -22,7 +22,7 @@ export default {
 <style scoped>
 .game-square {
     width: 100%;
-    padding-bottom: 100%;
+    aspect-ratio: 1 / 1; /* Maintain the aspect ratio as 1:1 */
     position: relative;  
     border: 1px solid black;
     background-color: #D3D3D3;
