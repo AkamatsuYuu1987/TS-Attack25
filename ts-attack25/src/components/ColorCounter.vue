@@ -30,8 +30,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%;
-  height: 50%;  /* Add this */
+  width: 7.5vw;
+  height: 7.5vw;  /* Add this */
   position: relative;
   margin: 0 auto;
 }
