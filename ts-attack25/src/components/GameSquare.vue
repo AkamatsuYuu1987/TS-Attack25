@@ -1,13 +1,15 @@
 <!-- GameSquare.vue -->
 <template>
-    <div class="game-square">
-        <div class="number-container">
+        <div class="game-square" :style="{ backgroundColor: panelColor }">
+            <div class="number-container">
             <div class="number">{{ number }}</div>
         </div>
     </div>
 </template>
+  
+<script lang="ts">
+import { Panel, PanelColor } from '../domain/panel';
 
-<script>
 export default {
     props: {
         number: {
@@ -15,17 +17,38 @@ export default {
             required: true,
         },
     },
+    data() {
+        return {
+            panel: new Panel(PanelColor.GRAY),
+        };
+    },
+    computed: {
+        panelColor() {
+            switch (this.panel.getColor()) {
+                case PanelColor.RED:
+                    return 'red';
+                case PanelColor.GREEN:
+                    return 'green';
+                case PanelColor.BLUE:
+                    return 'blue';
+                case PanelColor.WHITE:
+                    return 'white';
+                case PanelColor.GRAY:
+                default:
+                    return 'lightgray';
+            }
+        },
+    },
 };
 </script>
-
-
+  
 <style scoped>
 .game-square {
     width: 100%;
-    aspect-ratio: 1 / 1; /* Maintain the aspect ratio as 1:1 */
-    position: relative;  
+    aspect-ratio: 1 / 1;
+    /* Maintain the aspect ratio as 1:1 */
+    position: relative;
     border: 1px solid black;
-    background-color: #D3D3D3;
     box-sizing: border-box;
 }
 
@@ -43,3 +66,4 @@ export default {
     font-size: 5vw;
 }
 </style>
+  
