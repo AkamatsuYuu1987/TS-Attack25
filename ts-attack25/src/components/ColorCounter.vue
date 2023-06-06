@@ -1,3 +1,4 @@
+<!-- ColorCounter.vue -->
 <template>
   <div class="color-counter">
     <div class="color-box" v-for="(color, index) in colors" :key="index" :class="color">
@@ -29,8 +30,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%;
-  padding-top: 50%;
+  width: 7.5vw;
+  height: 7.5vw;  /* Add this */
   position: relative;
   margin: 0 auto;
 }
