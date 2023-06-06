@@ -1,8 +1,7 @@
-<!-- ColorCounter.vue -->
 <template>
   <div class="color-counter">
     <div class="color-box" v-for="(color, index) in colors" :key="index" :class="color">
-      <div class="number">0</div>
+      <span class="number">0</span>
     </div>
   </div>
 </template>
@@ -20,10 +19,10 @@ export default {
 <style scoped>
 .color-counter {
   width: 15%;
-  height: 100%;
+  height: inherit;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .color-box {
@@ -31,7 +30,7 @@ export default {
   align-items: center;
   justify-content: center;
   width: 50%;
-  height: calc((100% - 3 * 20px) / 4);
+  padding-top: 50%;
   position: relative;
   margin: 0 auto;
 }
@@ -53,16 +52,9 @@ export default {
 }
 
 .number {
-  position: absolute;
-  top: 10%;
-  left: 0;
-  width: 100%;
-  height: 80%;
-  color: black;
+  color: white;
   text-align: center;
-  line-height: 80%;
-  border: 2px solid black;
-  background-color: white;
   font-size: calc(0.8 * ((15vw / 2) * 0.8));
+  -webkit-text-stroke: 1px black; /* apply black outline */
 }
 </style>

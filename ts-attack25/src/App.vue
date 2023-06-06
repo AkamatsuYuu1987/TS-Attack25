@@ -1,4 +1,3 @@
-<!-- App.vue -->
 <template>
   <div id="app">
     <div class="game-container">
@@ -34,8 +33,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 5vw;
-  width: 90vw;
-  margin: auto;
+  flex-wrap: wrap;
+  --game-board-height: 80vh;
+  height: var(--game-board-height);
 }
+
 </style>
