@@ -3,8 +3,8 @@ import { Panel, PanelColor } from './panel';
 export default class GameBoard {
     private board: Panel[][];
 
-    constructor(size: number) {
-        this.board = new Array(size).fill(null).map(() => new Array(size).fill(null).map(() => new Panel()));
+    constructor(rows: number, cols: number) {
+        this.board = new Array(rows).fill(null).map(() => new Array(cols).fill(null).map(() => new Panel()));
     }
 
     public getBoard(): Panel[][] {
