@@ -1,40 +1,28 @@
 import { mount } from '@vue/test-utils'
 import GameSquare from '@/components/GameSquare.vue'
-import { Panel, PanelColor } from '@/domain/panel';
+import { PanelColor } from '@/domain/panel';
 
 describe('GameSquare.vue', () => {
     it('renders props.number when passed', () => {
         const number = 10;
+        const color = PanelColor.GRAY;
         const wrapper = mount(GameSquare, {
-            props: { number }
+            props: { number, color }
         })
         expect(wrapper.text()).toMatch(number.toString())
     })
 
-    it('renders correct panel color when panel color is changed', async () => {
+    it('renders correct panel color based on props', () => {
         const number = 10;
-        const wrapper = mount(GameSquare, {
-            props: { number }
-        })
-        const vm = wrapper.vm as any;
-        vm.panel.setColor(PanelColor.RED);
-        await wrapper.vm.$nextTick();
-        expect(vm.panelColor).toBe('red');
+        const colors = [PanelColor.RED, PanelColor.GREEN, PanelColor.BLUE, PanelColor.WHITE, PanelColor.GRAY];
+        const cssColors = ['red', 'green', 'blue', 'white', 'lightgray'];
 
-        vm.panel.setColor(PanelColor.GREEN);
-        await wrapper.vm.$nextTick();
-        expect(vm.panelColor).toBe('green');
-
-        vm.panel.setColor(PanelColor.BLUE);
-        await wrapper.vm.$nextTick();
-        expect(vm.panelColor).toBe('blue');
-
-        vm.panel.setColor(PanelColor.WHITE);
-        await wrapper.vm.$nextTick();
-        expect(vm.panelColor).toBe('white');
-
-        vm.panel.setColor(PanelColor.GRAY);
-        await wrapper.vm.$nextTick();
-        expect(vm.panelColor).toBe('lightgray');
+        colors.forEach((color, i) => {
+            const wrapper = mount(GameSquare, {
+                props: { number, color }
+            })
+            const vm = wrapper.vm as any;
+            expect(vm.panelColor).toBe(cssColors[i]);
+        });
     })
 })
