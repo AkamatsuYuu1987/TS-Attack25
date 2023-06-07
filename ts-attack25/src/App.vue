@@ -1,7 +1,8 @@
+<!-- App.vue -->
 <template>
   <div id="app">
     <div class="game-container">
-      <GameBoard />
+      <GameBoard :rows="5" :cols="5" />
       <ColorCounter />
     </div>
   </div>
@@ -37,5 +38,4 @@ export default {
   --game-board-height: 80vh;
   height: var(--game-board-height);
 }
-
 </style>
