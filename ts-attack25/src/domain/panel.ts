@@ -4,21 +4,20 @@ export enum PanelColor {
     BLUE,
     WHITE,
     GRAY
-  }
-  
-  export class Panel {
+}
+
+export class Panel {
     private color: PanelColor;
-  
-    constructor(color: PanelColor) {
+
+    constructor(color: PanelColor = PanelColor.GRAY) {
       this.color = color;
     }
-  
+
     public setColor(color: PanelColor): void {
       this.color = color;
     }
-  
+
     public getColor(): PanelColor {
       return this.color;
     }
-  }
-  
+}

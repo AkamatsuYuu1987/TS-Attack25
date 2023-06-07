@@ -2,29 +2,29 @@
 <template>
         <div class="game-square" :style="{ backgroundColor: panelColor }">
             <div class="number-container">
-            <div class="number">{{ number }}</div>
-        </div>
+                    <div class="number">{{ number }}</div>
+                </div>
     </div>
 </template>
-  
-<script lang="ts">
-import { Panel, PanelColor } from '../domain/panel';
 
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { PanelColor } from '../domain/panel';
+
+export default defineComponent({
     props: {
         number: {
             type: Number,
-            required: true,
+            required: true
         },
-    },
-    data() {
-        return {
-            panel: new Panel(PanelColor.GRAY),
-        };
+        color: {
+            type: Number,
+            required: true
+        }
     },
     computed: {
         panelColor() {
-            switch (this.panel.getColor()) {
+            switch (this.color) {
                 case PanelColor.RED:
                     return 'red';
                 case PanelColor.GREEN:
@@ -37,11 +37,11 @@ export default {
                 default:
                     return 'lightgray';
             }
-        },
-    },
-};
+        }
+    }
+});
 </script>
-  
+
 <style scoped>
 .game-square {
     width: 100%;
@@ -66,4 +66,3 @@ export default {
     font-size: 5vw;
 }
 </style>
-  
