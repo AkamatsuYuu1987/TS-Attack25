@@ -1,10 +1,12 @@
+// ColorCounter.test.ts
 import ColorCounter from '@/domain/ColorCounter';
+import { PanelColor } from '@/domain/panel';
 
 describe('ColorCounter', () => {
     let counter: ColorCounter;
 
     beforeEach(() => {
-        counter = new ColorCounter();
+        counter = new ColorCounter(PanelColor.RED, 'red'); // Pass PanelColor.RED and 'red' to the constructor
     });
 
     test('should initialize with count of 0', () => {
@@ -27,5 +29,13 @@ describe('ColorCounter', () => {
         counter.increment();
         counter.decrement();
         expect(counter.getCount()).toBe(2);
+    });
+
+    test('should get correct color', () => {
+        expect(counter.getColor()).toBe(PanelColor.RED);
+    });
+
+    test('should get correct color name', () => { // New test for getColorName method
+        expect(counter.getColorName()).toBe('red');
     });
 });
