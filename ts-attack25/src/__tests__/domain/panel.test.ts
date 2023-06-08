@@ -19,5 +19,13 @@ describe('Panel', () => {
     it('should change the color correctly', () => {
         panel.setColor(PanelColor.RED);
         expect(panel.getColor()).toBe(PanelColor.RED);
+        panel.setColor(PanelColor.GREEN);
+        expect(panel.getColor()).toBe(PanelColor.GREEN);
+        panel.setColor(PanelColor.BLUE);
+        expect(panel.getColor()).toBe(PanelColor.BLUE);
+        panel.setColor(PanelColor.WHITE);
+        expect(panel.getColor()).toBe(PanelColor.WHITE);
+        panel.setColor(PanelColor.GRAY);
+        expect(panel.getColor()).toBe(PanelColor.GRAY);
     });
 });
