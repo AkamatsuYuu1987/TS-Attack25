@@ -11,28 +11,9 @@ export default class GameBoard {
         return this.board;
     }
 
-    public changeColor(x: number, y: number, color: string): void {
-        let panelColor: PanelColor;
-
-        switch (color.toLowerCase()) {
-            case 'red':
-                panelColor = PanelColor.RED;
-                break;
-            case 'green':
-                panelColor = PanelColor.GREEN;
-                break;
-            case 'blue':
-                panelColor = PanelColor.BLUE;
-                break;
-            case 'white':
-                panelColor = PanelColor.WHITE;
-                break;
-            default:
-                panelColor = PanelColor.GRAY;
-        }
-
+    public changeColor(x: number, y: number, color: PanelColor): void {
         if (this.board[x] && this.board[x][y]) {
-            this.board[x][y].setColor(panelColor);
+            this.board[x][y].setColor(color);
         }
     }
 
