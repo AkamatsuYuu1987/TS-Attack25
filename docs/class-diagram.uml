@@ -1,22 +1,31 @@
 @startuml
 
 class Panel {
-  +color: string
-  +changeColor(newColor: string): void
-  +getColor(): string
+  -color: PanelColor
+  +setColor(color: PanelColor): void
+  +getColor(): PanelColor
 }
 
-class ColorCounter {
-  +color: string
-  +count: number
-  +increaseCount(): void
-  +decreaseCount(): void
-  +getCount(): number
+enum PanelColor {
+  RED
+  GREEN
+  BLUE
+  WHITE
+  GRAY
 }
 
 class GameBoard {
-  +panels: Panel[25]
-  +changePanelColor(panelNumber: number, newColor: string): void
+  -board: Panel[][]
+  +getBoard(): Panel[][]
+  +changeColor(x: number, y: number, color: string): void
+  +isUniformColor(): boolean
+}
+
+class ColorCounter {
+  -count: number
+  +increment(): void
+  +decrement(): void
+  +getCount(): number
 }
 
 class GameController {
@@ -26,7 +35,7 @@ class GameController {
   +selectPanel(panelNumber: number): void
 }
 
-GameBoard "1" -- "25" Panel
+GameBoard --> Panel: uses
 GameController "1" -- "1" GameBoard
 GameController "1" -- "4" ColorCounter
 
