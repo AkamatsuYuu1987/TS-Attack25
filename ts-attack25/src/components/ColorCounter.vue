@@ -1,20 +1,29 @@
 <!-- ColorCounter.vue -->
 <template>
   <div class="color-counter">
-    <div class="color-box" v-for="(color, index) in colors" :key="index" :class="color">
-      <span class="number">0</span>
+    <div class="color-box"
+         v-for="colorCounter in colorCounters"
+         :key="colorCounter.color"
+         :class="colorCounter.colorName"
+         @click="$emit('selectColor', colorCounter.color)"
+    >
+      <span class="number">{{ colorCounter.count }}</span>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      colors: ['red', 'green', 'white', 'blue']
-    };
-  },
-};
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+import ColorCounterType from '../domain/ColorCounter';
+
+export default defineComponent({
+  props: {
+    colorCounters: {
+      type: Array as PropType<ColorCounterType[]>,
+      required: true
+    }
+  }
+});
 </script>
 
 <style scoped>
@@ -31,9 +40,10 @@ export default {
   align-items: center;
   justify-content: center;
   width: 7.5vw;
-  height: 7.5vw;  /* Add this */
+  height: 7.5vw;
   position: relative;
   margin: 0 auto;
+  cursor: pointer; /* Add this line */
 }
 
 .red {

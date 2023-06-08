@@ -1,23 +1,65 @@
 <!-- App.vue -->
 <template>
   <div id="app">
-    <div class="game-container">
-      <GameBoard :rows="5" :cols="5" />
-      <ColorCounter />
+    <div class="game-container" v-if="gameController">
+      <GameBoard :rows="5" :cols="5" :board="gameController.gameBoard.getBoard()" @selectPanel="selectPanel" />
+      <ColorCounter :colorCounters="gameController.colorCounters" @selectColor="selectColor" />
     </div>
   </div>
 </template>
 
-<script>
-import GameBoard from './components/GameBoard.vue';
-import ColorCounter from './components/ColorCounter.vue';
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import GameBoardComponent from './components/GameBoard.vue';
+import ColorCounterComponent from './components/ColorCounter.vue';
+import GameController from './domain/GameController';
+import GameBoard from './domain/GameBoard';
+import { PanelColor } from './domain/panel';
+import ColorCounter from './domain/ColorCounter';
 
-export default {
+export default defineComponent({
   components: {
-    GameBoard,
-    ColorCounter
+    GameBoard: GameBoardComponent,
+    ColorCounter: ColorCounterComponent
+  },
+  setup() {
+    const gameBoard = new GameBoard(5, 5);
+
+    // eslint-disable-next-line no-unused-vars
+    const colorMap: { [key in PanelColor]?: string } = {
+      [PanelColor.RED]: 'red',
+      [PanelColor.GREEN]: 'green',
+      [PanelColor.BLUE]: 'blue',
+      [PanelColor.WHITE]: 'white',
+    };
+    
+    const colorCounters = [
+      PanelColor.RED,
+      PanelColor.GREEN,
+      PanelColor.BLUE,
+      PanelColor.WHITE,
+    ].map(color => new ColorCounter(color, colorMap[color]!)); // <-- Add non-null assertion operator here
+
+    const gameController = ref(new GameController(gameBoard, colorCounters));
+
+    const selectColor = (color: string) => {
+      console.log(`Color selected: ${color}`);
+      if (Object.values(PanelColor).includes(Number(color))) {
+        gameController.value?.selectColor(Number(color));
+      }
+    };
+
+    const selectPanel = (panelNumber: number) => {
+      gameController.value?.selectPanel(panelNumber);
+    };
+
+    return {
+      gameController,
+      selectColor,
+      selectPanel
+    };
   }
-};
+});
 </script>
 
 <style>

@@ -1,3 +1,4 @@
+// GameController.test.ts
 import GameController from '@/domain/GameController';
 import GameBoard from '@/domain/GameBoard';
 import ColorCounter from '@/domain/ColorCounter';
@@ -9,10 +10,10 @@ describe('GameController', () => {
     beforeEach(() => {
         const gameBoard = new GameBoard(5, 5);
         const colorCounters = [
-            new ColorCounter(),
-            new ColorCounter(),
-            new ColorCounter(),
-            new ColorCounter()
+            new ColorCounter(PanelColor.RED, 'red'),
+            new ColorCounter(PanelColor.GREEN, 'green'),
+            new ColorCounter(PanelColor.WHITE, 'white'),
+            new ColorCounter(PanelColor.BLUE, 'blue')
         ];
         gameController = new GameController(gameBoard, colorCounters);
     });
@@ -24,12 +25,12 @@ describe('GameController', () => {
     });
 
     it('should be able to select a color', () => {
-        gameController.selectColor('red');
-        expect(gameController.selectedColor).toBe('red');
+        gameController.selectColor(PanelColor.RED);
+        expect(gameController.selectedColor).toBe(PanelColor.RED);
     });
 
     it('should be able to select a panel and change its color', () => {
-        gameController.selectColor('green');
+        gameController.selectColor(PanelColor.GREEN);
         gameController.selectPanel(12); // Panel number 12 is at position (2, 2) in a 5x5 board
         expect(gameController.gameBoard.getBoard()[2][2].getColor()).toBe(PanelColor.GREEN);
     });
