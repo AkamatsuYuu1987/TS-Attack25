@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { PanelColor } from '../domain/panel';
+import { Panel, PanelColor } from '../domain/panel';
 
 export default defineComponent({
   props: {
@@ -17,9 +17,10 @@ export default defineComponent({
       type: Number,
       required: true
     },
-    color: {
-      type: Number,
-      required: true
+    panel: {
+      type: Object as () => Panel,
+      default: () => new Panel(PanelColor.GRAY),
+      required: false
     }
   },
   setup() {
@@ -39,7 +40,7 @@ export default defineComponent({
   },
   computed: {
     panelColor() {
-      switch (this.color) {
+      switch (this.panel.getColor()) {
         case PanelColor.RED:
           return 'red';
         case PanelColor.GREEN:

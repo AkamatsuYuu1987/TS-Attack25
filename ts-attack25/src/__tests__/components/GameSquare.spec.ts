@@ -1,13 +1,21 @@
 import { mount } from '@vue/test-utils'
 import GameSquare from '@/components/GameSquare.vue'
-import { PanelColor } from '@/domain/panel';
+import { Panel, PanelColor } from '@/domain/panel';
 
 describe('GameSquare.vue', () => {
     it('renders props.number when passed', () => {
         const number = 10;
-        const color = PanelColor.GRAY;
+        const panel = new Panel(PanelColor.GRAY);
         const wrapper = mount(GameSquare, {
-            props: { number, color }
+            props: { number, panel }
+        })
+        expect(wrapper.text()).toMatch(number.toString())
+    })
+
+    it('renders props.number without panel', () => {
+        const number = 10;
+        const wrapper = mount(GameSquare, {
+            props: { number }
         })
         expect(wrapper.text()).toMatch(number.toString())
     })
@@ -18,11 +26,12 @@ describe('GameSquare.vue', () => {
         const cssColors = ['red', 'green', 'blue', 'white', 'lightgray'];
 
         colors.forEach((color, i) => {
+            const panel = new Panel(color);
             const wrapper = mount(GameSquare, {
-                props: { number, color }
-            })
+                props: { number, panel }
+            });
             const vm = wrapper.vm as any;
             expect(vm.panelColor).toBe(cssColors[i]);
         });
-    })
+    });
 })

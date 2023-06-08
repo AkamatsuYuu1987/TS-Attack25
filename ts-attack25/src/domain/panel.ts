@@ -1,9 +1,9 @@
 export enum PanelColor {
-    RED,
-    GREEN,
-    BLUE,
-    WHITE,
-    GRAY
+  RED = 1,
+  GREEN,
+  BLUE,
+  WHITE,
+  GRAY
 }
 
 export class Panel {
