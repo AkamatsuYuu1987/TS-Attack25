@@ -1,13 +1,14 @@
 <!-- GameBoard.vue -->
 <template>
   <div class="game-board" :style="{ gridTemplateColumns: `repeat(${cols}, 1fr)`, gridAutoRows: `${100 / rows}%` }">
-    <GameSquare v-for="(item, i) in Array(rows * cols)" :key="i" :number="i + 1" />
+    <GameSquare v-for="(panel, i) in gameBoard.getBoard().flat()" :key="i" :number="i + 1" :panel="panel" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import GameSquare from './GameSquare.vue';
+import GameBoard from '../domain/GameBoard';
 
 export default defineComponent({
   components: {
@@ -22,6 +23,13 @@ export default defineComponent({
       type: Number,
       default: 5
     }
+  },
+  setup(props) {
+    const gameBoard = ref(new GameBoard(props.rows, props.cols));
+
+    return {
+      gameBoard
+    };
   }
 });
 </script>
