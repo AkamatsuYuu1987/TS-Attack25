@@ -5,9 +5,8 @@ class Panel {
   +setColor(color: PanelColor): void
   +getColor(): PanelColor
 }
-
 enum PanelColor {
-  RED
+  RED = 1
   GREEN
   BLUE
   WHITE
@@ -17,26 +16,37 @@ enum PanelColor {
 class GameBoard {
   -board: Panel[][]
   +getBoard(): Panel[][]
-  +changeColor(x: number, y: number, color: string): void
+  +setBoard(newBoard: Panel[][]): void
+  +changeColor(x: number, y: number, color: PanelColor): void
   +isUniformColor(): boolean
 }
 
+
 class ColorCounter {
+  -color: PanelColor
+  -colorName: string
   -count: number
+  +getColor(): PanelColor
+  +getColorName(): string
   +increment(): void
   +decrement(): void
   +getCount(): number
 }
 
 class GameController {
-  +gameBoard: GameBoard
-  +colorCounters: ColorCounter[4]
-  +selectColor(color: string): void
+  -gameBoard: GameBoard
+  -colorCounters: ColorCounter[]
+  -selectedColor: PanelColor | null
+  +selectColor(color: PanelColor): void
   +selectPanel(panelNumber: number): void
 }
 
 GameBoard --> Panel: uses
-GameController "1" -- "1" GameBoard
-GameController "1" -- "4" ColorCounter
+GameBoard --> PanelColor: uses
+Panel --> PanelColor: uses
+ColorCounter --> PanelColor: uses
+GameController --> GameBoard: uses
+GameController --> ColorCounter: uses
+GameController --> PanelColor: uses
 
 @enduml

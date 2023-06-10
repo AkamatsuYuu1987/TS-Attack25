@@ -1,9 +1,15 @@
 <!-- App.vue -->
 <template>
   <div id="app">
-    <div class="game-container" v-if="gameController">
-      <GameBoard :rows="5" :cols="5" :board="gameController.gameBoard.getBoard()" @selectPanel="selectPanel" />
-      <ColorCounter :colorCounters="gameController.colorCounters" @selectColor="selectColor" />
+    <div class="game-container">
+      <GameBoard 
+        :gameController="gameController" 
+        @updateBoard="updateBoard" 
+      />
+      <ColorCounter 
+        :colorCounters="gameController.colorCounters" 
+        @selectColor="selectColor" 
+      />
     </div>
   </div>
 </template>
@@ -14,7 +20,7 @@ import GameBoardComponent from './components/GameBoard.vue';
 import ColorCounterComponent from './components/ColorCounter.vue';
 import GameController from './domain/GameController';
 import GameBoard from './domain/GameBoard';
-import { PanelColor } from './domain/panel';
+import { PanelColor, Panel } from './domain/panel';
 import ColorCounter from './domain/ColorCounter';
 
 export default defineComponent({
@@ -38,7 +44,7 @@ export default defineComponent({
       PanelColor.GREEN,
       PanelColor.BLUE,
       PanelColor.WHITE,
-    ].map(color => new ColorCounter(color, colorMap[color]!)); // <-- Add non-null assertion operator here
+    ].map(color => new ColorCounter(color, colorMap[color]!));
 
     const gameController = ref(new GameController(gameBoard, colorCounters));
 
@@ -49,14 +55,14 @@ export default defineComponent({
       }
     };
 
-    const selectPanel = (panelNumber: number) => {
-      gameController.value?.selectPanel(panelNumber);
+    const updateBoard = (newBoard: Panel[][]) => {
+      gameController.value?.gameBoard.setBoard(newBoard);
     };
 
     return {
       gameController,
       selectColor,
-      selectPanel
+      updateBoard
     };
   }
 });
