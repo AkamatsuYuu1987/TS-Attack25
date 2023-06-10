@@ -5,7 +5,7 @@ import { Panel, PanelColor } from '@/domain/panel';
 describe('GameSquare.vue', () => {
     it('renders props.number when passed', () => {
         const number = 10;
-        const panel = new Panel(PanelColor.GRAY);
+        const panel = new Panel(PanelColor.GRAY, number);
         const wrapper = mount(GameSquare, {
             props: { number, panel }
         })
@@ -26,7 +26,7 @@ describe('GameSquare.vue', () => {
         const cssColors = ['red', 'green', 'blue', 'white', 'lightgray'];
 
         colors.forEach((color, i) => {
-            const panel = new Panel(color);
+            const panel = new Panel(color, number);
             const wrapper = mount(GameSquare, {
                 props: { number, panel }
             });
