@@ -26,8 +26,4 @@ export class Panel {
   public getNumber(): number {
     return this.number;
   }
-
-  public setNumber(number: number): void {
-    this.number = number;
-  }
 }

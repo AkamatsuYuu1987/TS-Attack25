@@ -32,10 +32,4 @@ describe('Panel', () => {
         panel.setColor(PanelColor.GRAY);
         expect(panel.getColor()).toBe(PanelColor.GRAY);
     });
-
-    it('should change the number correctly', () => {
-        const newPanelNumber = 10;
-        panel.setNumber(newPanelNumber);
-        expect(panel.getNumber()).toBe(newPanelNumber);
-    });
 });

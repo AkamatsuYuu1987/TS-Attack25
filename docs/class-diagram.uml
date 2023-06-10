@@ -1,52 +1,57 @@
 @startuml
 
-class Panel {
-  -color: PanelColor
-  +setColor(color: PanelColor): void
-  +getColor(): PanelColor
-}
 enum PanelColor {
-  RED = 1
+  RED
   GREEN
   BLUE
   WHITE
   GRAY
 }
 
-class GameBoard {
-  -board: Panel[][]
-  +getBoard(): Panel[][]
-  +setBoard(newBoard: Panel[][]): void
-  +changeColor(x: number, y: number, color: PanelColor): void
-  +isUniformColor(): boolean
+class Panel {
+  - color: PanelColor
+  - number: number
+  + Panel(color: PanelColor = PanelColor.GRAY, number: number)
+  + setColor(color: PanelColor): void
+  + getColor(): PanelColor
+  + getNumber(): number
 }
 
-
-class ColorCounter {
-  -color: PanelColor
-  -colorName: string
-  -count: number
-  +getColor(): PanelColor
-  +getColorName(): string
-  +increment(): void
-  +decrement(): void
-  +getCount(): number
+class GameBoard {
+  - board: Panel[][]
+  - rows: number
+  - cols: number
+  + GameBoard(rows: number = 5, cols: number = 5)
+  + getBoard(): Panel[][]
+  + setBoard(newBoard: Panel[][]): void
+  + changeColor(number: number, color: PanelColor): void
+  + getRows(): number
+  + getCols(): number
 }
 
 class GameController {
-  -gameBoard: GameBoard
-  -colorCounters: ColorCounter[]
-  -selectedColor: PanelColor | null
-  +selectColor(color: PanelColor): void
-  +selectPanel(panelNumber: number): void
+  - gameBoard: GameBoard
+  - selectedColor: PanelColor | null
+  - colorCounters: ColorCounter[]
+  + GameController(gameBoard: GameBoard, colorCounters: ColorCounter[])
+  + selectColor(color: PanelColor): void
+  + selectPanel(number: number): GameBoard
 }
 
-GameBoard --> Panel: uses
-GameBoard --> PanelColor: uses
-Panel --> PanelColor: uses
-ColorCounter --> PanelColor: uses
-GameController --> GameBoard: uses
-GameController --> ColorCounter: uses
-GameController --> PanelColor: uses
+class ColorCounter {
+  - color: PanelColor
+  - colorName: string
+  - count: number
+  + ColorCounter(color: PanelColor, colorName: string)
+  + getColor(): PanelColor
+  + getColorName(): string
+  + increment(): void
+  + decrement(): void
+  + getCount(): number
+}
+
+GameController -- GameBoard
+GameController -- ColorCounter
+GameBoard -- Panel
 
 @enduml
