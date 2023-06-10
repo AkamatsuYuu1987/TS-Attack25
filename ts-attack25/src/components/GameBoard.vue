@@ -1,34 +1,42 @@
 <!-- GameBoard.vue -->
 <template>
-  <div class="game-board" :style="{ gridTemplateColumns: `repeat(${cols}, 1fr)`, gridAutoRows: `${100 / rows}%` }">
-    <GameSquare v-for="(panel, i) in gameBoard.getBoard().flat()" :key="i" :number="i + 1" :panel="panel" />
+  <div class="game-board"
+       :style="{
+           gridTemplateColumns: `repeat(${gameController.gameBoard.getCols()}, 1fr)`,
+           gridAutoRows: `${100 / gameController.gameBoard.getRows()}%`
+       }"
+  >
+    <GameSquare v-for="(panel, i) in gameController.gameBoard.getBoard().flat()" :key="`${i}-${panel.color}`"
+                :number="i + 1" :panel="panel" @click="onPanelClick(i + 1)"/>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import GameSquare from './GameSquare.vue';
-import GameBoard from '../domain/GameBoard';
+import GameController from '../domain/GameController';
 
 export default defineComponent({
   components: {
     GameSquare
   },
   props: {
-    rows: {
-      type: Number,
-      default: 5
-    },
-    cols: {
-      type: Number,
-      default: 5
+    gameController: {
+      type: Object as () => GameController,
+      required: true
     }
   },
-  setup(props) {
-    const gameBoard = ref(new GameBoard(props.rows, props.cols));
+  setup(props, { emit }) {
+    const onPanelClick = (panelNumber: number) => {
+      // Use the gameController to get the new gameBoard state
+      const newBoard = props.gameController.selectPanel(panelNumber).getBoard();
+
+      // Emit the new board
+      emit('updateBoard', newBoard);
+    };
 
     return {
-      gameBoard
+      onPanelClick
     };
   }
 });

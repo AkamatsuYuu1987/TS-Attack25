@@ -2,18 +2,22 @@ import { Panel, PanelColor } from '@/domain/panel';
 
 describe('Panel', () => {
     let panel: Panel;
+    const initialPanelNumber = 1;
 
     beforeEach(() => {
-        panel = new Panel(PanelColor.GRAY);
+        panel = new Panel(PanelColor.GRAY, initialPanelNumber);
     });
 
-    it('should set the initial color correctly', () => {
+    it('should set the initial color and number correctly', () => {
         expect(panel.getColor()).toBe(PanelColor.GRAY);
+        expect(panel.getNumber()).toBe(initialPanelNumber);
     });
 
     it('should set the default color to GRAY when no color is specified', () => {
-        const defaultPanel = new Panel();
+        const defaultPanelNumber = 2;
+        const defaultPanel = new Panel(undefined, defaultPanelNumber);
         expect(defaultPanel.getColor()).toBe(PanelColor.GRAY);
+        expect(defaultPanel.getNumber()).toBe(defaultPanelNumber);
     });
 
     it('should change the color correctly', () => {

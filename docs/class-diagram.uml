@@ -1,9 +1,12 @@
 @startuml
 
 class Panel {
-  -color: PanelColor
-  +setColor(color: PanelColor): void
-  +getColor(): PanelColor
+  - color: PanelColor
+  - number: number
+  + Panel(color: PanelColor = PanelColor.GRAY, number: number)
+  + setColor(color: PanelColor): void
+  + getColor(): PanelColor
+  + getNumber(): number
 }
 
 enum PanelColor {
@@ -15,24 +18,36 @@ enum PanelColor {
 }
 
 class GameBoard {
-  -board: Panel[][]
-  +getBoard(): Panel[][]
-  +changeColor(x: number, y: number, color: string): void
-  +isUniformColor(): boolean
-}
-
-class ColorCounter {
-  -count: number
-  +increment(): void
-  +decrement(): void
-  +getCount(): number
+  - board: Panel[][]
+  - rows: number
+  - cols: number
+  + GameBoard(rows: number = 5, cols: number = 5)
+  + getBoard(): Panel[][]
+  + setBoard(newBoard: Panel[][]): void
+  + changeColor(number: number, color: PanelColor): void
+  + getRows(): number
+  + getCols(): number
 }
 
 class GameController {
-  +gameBoard: GameBoard
-  +colorCounters: ColorCounter[4]
-  +selectColor(color: string): void
-  +selectPanel(panelNumber: number): void
+  - gameBoard: GameBoard
+  - selectedColor: PanelColor | null
+  - colorCounters: ColorCounter[]
+  + GameController(gameBoard: GameBoard, colorCounters: ColorCounter[])
+  + selectColor(color: PanelColor): void
+  + selectPanel(number: number): GameBoard
+}
+
+class ColorCounter {
+  - color: PanelColor
+  - colorName: string
+  - count: number
+  + ColorCounter(color: PanelColor, colorName: string)
+  + getColor(): PanelColor
+  + getColorName(): string
+  + increment(): void
+  + decrement(): void
+  + getCount(): number
 }
 
 GameBoard --> Panel: uses

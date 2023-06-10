@@ -8,9 +8,11 @@ export enum PanelColor {
 
 export class Panel {
     private color: PanelColor;
+  private number: number;
 
-    constructor(color: PanelColor = PanelColor.GRAY) {
+  constructor(color: PanelColor = PanelColor.GRAY, number: number) {
       this.color = color;
+      this.number = number;
     }
 
     public setColor(color: PanelColor): void {
@@ -20,4 +22,8 @@ export class Panel {
     public getColor(): PanelColor {
       return this.color;
     }
+
+  public getNumber(): number {
+    return this.number;
+  }
 }

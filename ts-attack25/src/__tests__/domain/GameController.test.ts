@@ -8,7 +8,7 @@ describe('GameController', () => {
     let gameController: GameController;
 
     beforeEach(() => {
-        const gameBoard = new GameBoard(5, 5);
+        const gameBoard = new GameBoard();
         const colorCounters = [
             new ColorCounter(PanelColor.RED, 'red'),
             new ColorCounter(PanelColor.GREEN, 'green'),
@@ -29,10 +29,12 @@ describe('GameController', () => {
         expect(gameController.selectedColor).toBe(PanelColor.RED);
     });
 
-    it('should be able to select a panel and change its color', () => {
+    it('should be able to select a panel and change its color', async () => {
         gameController.selectColor(PanelColor.GREEN);
-        gameController.selectPanel(12); // Panel number 12 is at position (2, 2) in a 5x5 board
-        expect(gameController.gameBoard.getBoard()[2][2].getColor()).toBe(PanelColor.GREEN);
+        const newGameBoard = await gameController.selectPanel(12); // Panel number 12 is at position (2, 2) in a 5x5 board
+        const panel = newGameBoard.getBoard().flat().find(panel => panel.getNumber() === 12);
+        expect(panel!.getColor()).toBe(PanelColor.GREEN);
+
     });
 
     it('should throw an error if a panel is selected before a color', () => {
