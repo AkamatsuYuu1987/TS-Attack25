@@ -1,58 +1,63 @@
+// GameBoard.test.ts
 import GameBoard from '@/domain/GameBoard';
-import { PanelColor } from '@/domain/panel';
+import { Panel, PanelColor } from '@/domain/panel';
 
 describe('GameBoard', () => {
     let gameBoard: GameBoard;
+    const rows = 5;
+    const cols = 5;
 
     beforeEach(() => {
-        gameBoard = new GameBoard(5, 5); // Create a 5x5 game board
+        gameBoard = new GameBoard(rows, cols);
     });
 
-    it('creates a square game board with correct size', () => {
+    test('constructor initializes with default 5x5 grid', () => {
         const board = gameBoard.getBoard();
-        expect(board.length).toBe(5);
-        board.forEach(row => {
-            expect(row.length).toBe(5);
-            row.forEach(panel => {
+
+        expect(board).toHaveLength(rows);
+        board.forEach((row, i) => {
+            expect(row).toHaveLength(cols);
+            row.forEach((panel, j) => {
+                expect(panel).toBeInstanceOf(Panel);
                 expect(panel.getColor()).toBe(PanelColor.GRAY);
+                expect(panel.getNumber()).toBe(i * cols + j + 1);
             });
         });
     });
 
-    it('creates a rectangular game board with correct size', () => {
-        gameBoard = new GameBoard(4, 6);
+    test('constructor initializes with custom grid size', () => {
+        const customRows = 3;
+        const customCols = 7;
+        const customGameBoard = new GameBoard(customRows, customCols);
+        const board = customGameBoard.getBoard();
+
+        expect(board).toHaveLength(customRows);
+        board.forEach((row, i) => {
+            expect(row).toHaveLength(customCols);
+            row.forEach((panel, j) => {
+                expect(panel).toBeInstanceOf(Panel);
+                expect(panel.getColor()).toBe(PanelColor.GRAY);
+                expect(panel.getNumber()).toBe(i * customCols + j + 1);
+            });
+        });
+    });
+
+    test('changeColor changes the color of a specific panel', () => {
+        const number = 7;
+        gameBoard.changeColor(number, PanelColor.BLUE);
+
         const board = gameBoard.getBoard();
-        expect(board.length).toBe(4);
-        board.forEach(row => {
-            expect(row.length).toBe(6);
-            row.forEach(panel => {
-                expect(panel.getColor()).toBe(PanelColor.GRAY);
-            });
-        });
+        const changedPanel = board.flat().find(panel => panel.getNumber() === number);
+
+        expect(changedPanel).toBeDefined();
+        expect(changedPanel!.getColor()).toBe(PanelColor.BLUE);
     });
 
-    it('changes panel color correctly', () => {
-        gameBoard.changeColor(0, 0, PanelColor.RED);
-        const panel = gameBoard.getBoard()[0][0];
-        expect(panel.getColor()).toBe(PanelColor.RED);
+    test('getRows returns correct row count', () => {
+        expect(gameBoard.getRows()).toBe(rows);
     });
 
-    it('returns true for isUniformColor if all panels are the same color', () => {
-        gameBoard.getBoard().forEach((row, i) => {
-            row.forEach((_, j) => {
-                gameBoard.changeColor(i, j, PanelColor.BLUE);
-            });
-        });
-        expect(gameBoard.isUniformColor()).toBe(true);
-    });
-
-    it('returns false for isUniformColor if any panels are a different color', () => {
-        gameBoard.getBoard().forEach((row, i) => {
-            row.forEach((_, j) => {
-                gameBoard.changeColor(i, j, PanelColor.BLUE);
-            });
-        });
-        gameBoard.changeColor(0, 0, PanelColor.RED);
-        expect(gameBoard.isUniformColor()).toBe(false);
+    test('getCols returns correct column count', () => {
+        expect(gameBoard.getCols()).toBe(cols);
     });
 });
