@@ -1,13 +1,5 @@
 @startuml
 
-enum PanelColor {
-  RED
-  GREEN
-  BLUE
-  WHITE
-  GRAY
-}
-
 class Panel {
   - color: PanelColor
   - number: number
@@ -15,6 +7,14 @@ class Panel {
   + setColor(color: PanelColor): void
   + getColor(): PanelColor
   + getNumber(): number
+}
+
+enum PanelColor {
+  RED
+  GREEN
+  BLUE
+  WHITE
+  GRAY
 }
 
 class GameBoard {
@@ -50,8 +50,8 @@ class ColorCounter {
   + getCount(): number
 }
 
-GameController -- GameBoard
-GameController -- ColorCounter
-GameBoard -- Panel
+GameBoard --> Panel: uses
+GameController "1" -- "1" GameBoard
+GameController "1" -- "4" ColorCounter
 
 @enduml
