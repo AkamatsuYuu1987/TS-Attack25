@@ -1,4 +1,4 @@
 FROM node:14.17.0
-WORKDIR /srv/front/src/app
+WORKDIR /ts-attack25
 
 CMD ["/bin/sh"]
