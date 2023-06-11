@@ -3,7 +3,7 @@ services:
   nodejs:
     build: .
     volumes:
-      - .:/srv/front/src/app
+      - ./ts-attack25:/srv/front/src/app/ts-attack25
     ports:
       - "8080:8080"
     tty: true
