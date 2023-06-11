@@ -91,4 +91,30 @@ describe('GameBoard.vue', () => {
         expect(updateBoardEmits[0][0]).toEqual(expectedBoard);
     });
 
+    it('does not emit the new game board when no color is selected', async () => {
+        const rows = 3;
+        const cols = 4;
+        const gameBoardDomain = new GameBoardDomain(rows, cols);
+        const gameController = new GameController(gameBoardDomain, colorCounters);
+
+        const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => { });
+
+        const wrapper = mount(GameBoard, {
+            props: {
+                gameController
+            }
+        });
+
+        const gameSquares = wrapper.findAllComponents(GameSquare);
+        await gameSquares[0].trigger('click');
+
+        // Check that no updateBoard event has been emitted
+        expect(wrapper.emitted().updateBoard).toBeFalsy();
+
+        // Check that alert was called
+        expect(alertSpy).toHaveBeenCalledWith("Please select a color first!");
+
+        alertSpy.mockRestore();
+    });
+
 });
