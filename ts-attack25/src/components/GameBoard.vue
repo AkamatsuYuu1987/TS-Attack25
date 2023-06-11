@@ -27,7 +27,17 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const displayAlert = (message: string) => {
+      window.alert(message);
+    };
+
     const onPanelClick = (panelNumber: number) => {
+      // 色が選択されていない場合、処理を終了
+      if (props.gameController.selectedColor === null) {
+        displayAlert("Please select a color first!");
+        return;
+      }
+      
       // Use the gameController to get the new gameBoard state
       const newBoard = props.gameController.selectPanel(panelNumber).getBoard();
 
@@ -36,7 +46,8 @@ export default defineComponent({
     };
 
     return {
-      onPanelClick
+      onPanelClick,
+      displayAlert
     };
   }
 });
