@@ -7,23 +7,35 @@ export enum PanelColor {
 }
 
 export class Panel {
-    private color: PanelColor;
+  private color: PanelColor;
   private number: number;
+  private row: number;
+  private col: number;
 
-  constructor(color: PanelColor = PanelColor.GRAY, number: number) {
+  constructor(color: PanelColor = PanelColor.GRAY, number: number, row: number, col: number) {
+    this.color = color;
+    this.number = number;
+    this.row = row;
+    this.col = col;
+  }
+
+  public setColor(color: PanelColor): void {
       this.color = color;
-      this.number = number;
-    }
+  }
 
-    public setColor(color: PanelColor): void {
-      this.color = color;
-    }
-
-    public getColor(): PanelColor {
+  public getColor(): PanelColor {
       return this.color;
-    }
+  }
 
   public getNumber(): number {
     return this.number;
+  }
+
+  public getRow(): number {
+    return this.row;
+  }
+
+  public getColumn(): number {
+    return this.col;
   }
 }

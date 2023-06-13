@@ -19,8 +19,7 @@ export default defineComponent({
     },
     panel: {
       type: Object as () => Panel,
-      default: () => new Panel(PanelColor.GRAY, 0),
-      required: false
+      required: true
     }
   },
   setup() {
@@ -40,7 +39,6 @@ export default defineComponent({
   },
   computed: {
     panelColor() {
-      //console.log(`GameSquare.vue panelColor: ${this.panel.getColor()}`);
       switch (this.panel.getColor()) {
         case PanelColor.RED:
           return 'red';
@@ -56,14 +54,6 @@ export default defineComponent({
       }
     }
   },
-  watch: {
-    panel: {
-      deep: true,
-      handler() {
-        //console.log('Panel property has changed.');
-      }
-    }
-  }
 });
 </script>
 
