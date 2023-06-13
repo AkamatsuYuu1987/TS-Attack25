@@ -78,9 +78,9 @@ describe('GameBoard.vue', () => {
 
         // This is the expected state of the game board after the panel has been clicked.
         const expectedBoard = [
-            [new Panel(1, 1), new Panel(5, 2), new Panel(5, 3), new Panel(5, 4)],
-            [new Panel(5, 5), new Panel(5, 6), new Panel(5, 7), new Panel(5, 8)],
-            [new Panel(5, 9), new Panel(5, 10), new Panel(5, 11), new Panel(5, 12)]
+            [new Panel(PanelColor.RED, 1, 0, 0), new Panel(PanelColor.GRAY, 2, 0, 1), new Panel(PanelColor.GRAY, 3, 0, 2), new Panel(PanelColor.GRAY, 4, 0, 3)],
+            [new Panel(PanelColor.GRAY, 5, 1, 0), new Panel(PanelColor.GRAY, 6, 1, 1), new Panel(PanelColor.GRAY, 7, 1, 2), new Panel(PanelColor.GRAY, 8, 1, 3)],
+            [new Panel(PanelColor.GRAY, 9, 2, 0), new Panel(PanelColor.GRAY, 10, 2, 1), new Panel(PanelColor.GRAY, 11, 2, 2), new Panel(PanelColor.GRAY, 12, 2, 3)]
         ];
 
         const updateBoardEmits = wrapper.emitted().updateBoard as (Panel[][])[];

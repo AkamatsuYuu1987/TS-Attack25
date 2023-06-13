@@ -9,9 +9,14 @@ export default class GameBoard {
         this.rows = rows;
         this.cols = cols;
 
-        // this.board = new Array(rows).fill(null).map(() => new Array(cols).fill(null).map(() => new Panel()));
-        // this.boardに1-25のnumberを持つPanelを格納する
-        this.board = new Array(rows).fill(null).map((_, i) => new Array(cols).fill(null).map((_, j) => new Panel(PanelColor.GRAY, i * cols + j + 1)));
+        this.board = this.createBoard(rows, cols);
+    }
+
+    private createBoard(rows: number, cols: number): Panel[][] {
+        return Array.from({ length: rows }, (_, rowIndex) =>
+            Array.from({ length: cols }, (_, colIndex) =>
+                new Panel(PanelColor.GRAY, rowIndex * cols + colIndex + 1, rowIndex, colIndex))
+        );
     }
 
     public getBoard(): Panel[][] {
@@ -25,11 +30,10 @@ export default class GameBoard {
     public changeColor(number: number, color: PanelColor): void {
         this.board = this.board.map(row =>
             row.map(panel => panel.getNumber() === number
-                ? new Panel(color, number) // Create a new Panel with the selected color and number
+                ? new Panel(color, panel.getNumber(), panel.getRow(), panel.getColumn())
                 : panel)
         );
     }
-
 
     // Added getter methods to access rows and cols
     public getRows(): number {
