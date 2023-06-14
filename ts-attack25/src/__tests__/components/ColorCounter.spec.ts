@@ -13,10 +13,10 @@ describe('ColorCounter.vue', () => {
             [PanelColor.WHITE]: 'white',
         };
         const colorCounters = [
-            new ColorCounterType(PanelColor.RED, colorMap[PanelColor.RED]!),
-            new ColorCounterType(PanelColor.GREEN, colorMap[PanelColor.GREEN]!),
-            new ColorCounterType(PanelColor.BLUE, colorMap[PanelColor.BLUE]!),
-            new ColorCounterType(PanelColor.WHITE, colorMap[PanelColor.WHITE]!),
+            new ColorCounterType(PanelColor.RED, 'red', 0),
+            new ColorCounterType(PanelColor.GREEN, 'green', 0),
+            new ColorCounterType(PanelColor.BLUE, 'blue', 0),
+            new ColorCounterType(PanelColor.WHITE, 'white', 0),
         ];
         const wrapper = shallowMount(ColorCounter, {
             props: { colorCounters },
@@ -33,10 +33,10 @@ describe('ColorCounter.vue', () => {
             [PanelColor.WHITE]: 'white',
         };
         const colorCounters = [
-            new ColorCounterType(PanelColor.RED, colorMap[PanelColor.RED]!),
-            new ColorCounterType(PanelColor.GREEN, colorMap[PanelColor.GREEN]!),
-            new ColorCounterType(PanelColor.BLUE, colorMap[PanelColor.BLUE]!),
-            new ColorCounterType(PanelColor.WHITE, colorMap[PanelColor.WHITE]!),
+            new ColorCounterType(PanelColor.RED, 'red', 0),
+            new ColorCounterType(PanelColor.GREEN, 'green', 0),
+            new ColorCounterType(PanelColor.BLUE, 'blue', 0),
+            new ColorCounterType(PanelColor.WHITE, 'white', 0),
         ];
         const wrapper = shallowMount(ColorCounter, {
             props: { colorCounters },
