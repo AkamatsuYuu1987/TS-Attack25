@@ -9,10 +9,10 @@ import ColorCounter from '@/domain/ColorCounter';
 
 describe('GameBoard.vue', () => {
     const colorCounters = [
-        new ColorCounter(PanelColor.RED, 'red'),
-        new ColorCounter(PanelColor.GREEN, 'green'),
-        new ColorCounter(PanelColor.WHITE, 'white'),
-        new ColorCounter(PanelColor.BLUE, 'blue')
+        new ColorCounter(PanelColor.RED, 'red', 0),
+        new ColorCounter(PanelColor.GREEN, 'green', 0),
+        new ColorCounter(PanelColor.WHITE, 'white', 0),
+        new ColorCounter(PanelColor.BLUE, 'blue', 0)
     ];
 
     it('renders the game board with default 5x5 grid when no rows and cols are provided', () => {
@@ -59,7 +59,7 @@ describe('GameBoard.vue', () => {
         });
     });
 
-    it('emits the new game board when a panel is clicked', async () => {
+    it('emits the new game board and color counters when a panel is clicked', async () => {
         const rows = 3;
         const cols = 4;
         const gameBoardDomain = new GameBoardDomain(rows, cols);
@@ -76,19 +76,28 @@ describe('GameBoard.vue', () => {
         const gameSquares = wrapper.findAllComponents(GameSquare);
         await gameSquares[0].trigger('click');
 
-        // This is the expected state of the game board after the panel has been clicked.
+        // This is the expected state of the game board and color counters after the panel has been clicked.
         const expectedBoard = [
-            [new Panel(1, 1), new Panel(5, 2), new Panel(5, 3), new Panel(5, 4)],
-            [new Panel(5, 5), new Panel(5, 6), new Panel(5, 7), new Panel(5, 8)],
-            [new Panel(5, 9), new Panel(5, 10), new Panel(5, 11), new Panel(5, 12)]
+            [new Panel(PanelColor.RED, 1, 0, 0), new Panel(PanelColor.GRAY, 2, 0, 1), new Panel(PanelColor.GRAY, 3, 0, 2), new Panel(PanelColor.GRAY, 4, 0, 3)],
+            [new Panel(PanelColor.GRAY, 5, 1, 0), new Panel(PanelColor.GRAY, 6, 1, 1), new Panel(PanelColor.GRAY, 7, 1, 2), new Panel(PanelColor.GRAY, 8, 1, 3)],
+            [new Panel(PanelColor.GRAY, 9, 2, 0), new Panel(PanelColor.GRAY, 10, 2, 1), new Panel(PanelColor.GRAY, 11, 2, 2), new Panel(PanelColor.GRAY, 12, 2, 3)]
+        ];
+        const expectedColorCounters = [
+            new ColorCounter(PanelColor.RED, 'red', 1),
+            new ColorCounter(PanelColor.GREEN, 'green', 0),
+            new ColorCounter(PanelColor.WHITE, 'white', 0),
+            new ColorCounter(PanelColor.BLUE, 'blue', 0)
         ];
 
         const updateBoardEmits = wrapper.emitted().updateBoard as (Panel[][])[];
+        const updateColorCountersEmits = wrapper.emitted().updateColorCounters as (ColorCounter[])[];
 
-        // As the expected board state depends on the game logic which might be complex,
-        // we validate here that the 'updateBoard' event was emitted and the emitted value is an instance of Panel[][].
+        // As the expected board and color counters states depend on the game logic which might be complex,
+        // we validate here that the 'updateBoard' and 'updateColorCounters' events were emitted and the emitted values are instances of Panel[][] and ColorCounter[] respectively.
         expect(updateBoardEmits).toHaveLength(1);
         expect(updateBoardEmits[0][0]).toEqual(expectedBoard);
+        expect(updateColorCountersEmits).toHaveLength(1);
+        expect(updateColorCountersEmits[0][0]).toEqual(expectedColorCounters);
     });
 
     it('does not emit the new game board when no color is selected', async () => {
