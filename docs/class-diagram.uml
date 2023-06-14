@@ -3,10 +3,14 @@
 class Panel {
   - color: PanelColor
   - number: number
-  + Panel(color: PanelColor = PanelColor.GRAY, number: number)
+  - row: number
+  - col: number
+  + Panel(color: PanelColor = PanelColor.GRAY, number: number, row: number, col: number)
   + setColor(color: PanelColor): void
   + getColor(): PanelColor
   + getNumber(): number
+  + getRow(): number
+  + getColumn(): number
 }
 
 enum PanelColor {
@@ -34,24 +38,27 @@ class GameController {
   - selectedColor: PanelColor | null
   - colorCounters: ColorCounter[]
   + GameController(gameBoard: GameBoard, colorCounters: ColorCounter[])
+  + setColorCounters(colorCounters: ColorCounter[]): void
+  + setGameBoard(gameBoard: GameBoard): void
   + selectColor(color: PanelColor): void
-  + selectPanel(number: number): GameBoard
+  + selectPanel(panelNumber: number): { newGameBoard: GameBoard, newColorCounters: ColorCounter[] }
+  + updateColorCounters(colorCounters: ColorCounter[], panels: Panel[]): void
 }
 
 class ColorCounter {
   - color: PanelColor
   - colorName: string
   - count: number
-  + ColorCounter(color: PanelColor, colorName: string)
+  + ColorCounter(color: PanelColor, colorName: string, count: number)
   + getColor(): PanelColor
   + getColorName(): string
-  + increment(): void
-  + decrement(): void
   + getCount(): number
+  + setCount(count: number): void
 }
 
 GameBoard --> Panel: uses
 GameController "1" -- "1" GameBoard
-GameController "1" -- "4" ColorCounter
+GameController "1" -- "*" ColorCounter
+ColorCounter o-- PanelColor
 
 @enduml
