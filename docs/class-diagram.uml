@@ -1,0 +1,57 @@
+@startuml
+
+class Panel {
+  - color: PanelColor
+  - number: number
+  + Panel(color: PanelColor = PanelColor.GRAY, number: number)
+  + setColor(color: PanelColor): void
+  + getColor(): PanelColor
+  + getNumber(): number
+}
+
+enum PanelColor {
+  RED
+  GREEN
+  BLUE
+  WHITE
+  GRAY
+}
+
+class GameBoard {
+  - board: Panel[][]
+  - rows: number
+  - cols: number
+  + GameBoard(rows: number = 5, cols: number = 5)
+  + getBoard(): Panel[][]
+  + setBoard(newBoard: Panel[][]): void
+  + changeColor(number: number, color: PanelColor): void
+  + getRows(): number
+  + getCols(): number
+}
+
+class GameController {
+  - gameBoard: GameBoard
+  - selectedColor: PanelColor | null
+  - colorCounters: ColorCounter[]
+  + GameController(gameBoard: GameBoard, colorCounters: ColorCounter[])
+  + selectColor(color: PanelColor): void
+  + selectPanel(number: number): GameBoard
+}
+
+class ColorCounter {
+  - color: PanelColor
+  - colorName: string
+  - count: number
+  + ColorCounter(color: PanelColor, colorName: string)
+  + getColor(): PanelColor
+  + getColorName(): string
+  + increment(): void
+  + decrement(): void
+  + getCount(): number
+}
+
+GameBoard --> Panel: uses
+GameController "1" -- "1" GameBoard
+GameController "1" -- "4" ColorCounter
+
+@enduml

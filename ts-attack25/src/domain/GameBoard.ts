@@ -1,0 +1,46 @@
+import { Panel, PanelColor } from '@/domain/panel';
+
+export default class GameBoard {
+    private board: Panel[][];
+    private rows: number;
+    private cols: number;
+
+    constructor(rows: number = 5, cols: number = 5) {
+        this.rows = rows;
+        this.cols = cols;
+
+        this.board = this.createBoard(rows, cols);
+    }
+
+    private createBoard(rows: number, cols: number): Panel[][] {
+        return Array.from({ length: rows }, (_, rowIndex) =>
+            Array.from({ length: cols }, (_, colIndex) =>
+                new Panel(PanelColor.GRAY, rowIndex * cols + colIndex + 1, rowIndex, colIndex))
+        );
+    }
+
+    public getBoard(): Panel[][] {
+        return this.board;
+    }
+
+    public setBoard(newBoard: Panel[][]): void {
+        this.board = newBoard;
+    }
+
+    public changeColor(number: number, color: PanelColor): void {
+        this.board = this.board.map(row =>
+            row.map(panel => panel.getNumber() === number
+                ? new Panel(color, panel.getNumber(), panel.getRow(), panel.getColumn())
+                : panel)
+        );
+    }
+
+    // Added getter methods to access rows and cols
+    public getRows(): number {
+        return this.rows;
+    }
+
+    public getCols(): number {
+        return this.cols;
+    }
+}
