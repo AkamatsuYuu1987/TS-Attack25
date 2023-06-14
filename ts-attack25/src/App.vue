@@ -4,7 +4,8 @@
     <div class="game-container">
       <GameBoard 
         :gameController="gameController" 
-        @updateBoard="updateBoard" 
+        @updateBoard="updateBoard"
+        @updateColorCounters="updateColorCounters"
       />
       <ColorCounter 
         :colorCounters="gameController.colorCounters" 
@@ -44,7 +45,7 @@ export default defineComponent({
       PanelColor.GREEN,
       PanelColor.BLUE,
       PanelColor.WHITE,
-    ].map(color => new ColorCounter(color, colorMap[color]!));
+    ].map(color => new ColorCounter(color, colorMap[color]!, 0));
 
     const gameController = ref(new GameController(gameBoard, colorCounters));
 
@@ -59,10 +60,15 @@ export default defineComponent({
       gameController.value?.gameBoard.setBoard(newBoard);
     };
 
+    const updateColorCounters = (newColorCounters: ColorCounter[]) => {
+      gameController.value?.setColorCounters(newColorCounters);
+    };
+
     return {
       gameController,
       selectColor,
-      updateBoard
+      updateBoard,
+      updateColorCounters
     };
   }
 });
