@@ -1,3 +1,4 @@
+// GameController.ts
 import GameBoard from './GameBoard';
 import ColorCounter from './ColorCounter';
 import { Panel, PanelColor } from './panel';
@@ -26,6 +27,11 @@ class GameController {
 
     constructor(gameBoard: GameBoard, colorCounters: ColorCounter[]) {
         this.gameBoard = gameBoard;
+        this.colorCounters = colorCounters;
+    }
+
+    // ColorCountersを設定するメソッド
+    setColorCounters(colorCounters: ColorCounter[]): void {
         this.colorCounters = colorCounters;
     }
 
@@ -79,7 +85,7 @@ class GameController {
         this.selectedColor = color;
     }
 
-    selectPanel(panelNumber: number): GameBoard {
+    selectPanel(panelNumber: number): { newGameBoard: GameBoard, newColorCounters: ColorCounter[] } {
         if (this.selectedColor === null) {
             throw new Error('No color has been selected');
         }
@@ -88,12 +94,6 @@ class GameController {
         const panel = this.gameBoard.getBoard().flat().find(p => p.getNumber() === panelNumber);
         if (!panel) {
             throw new Error('Panel not found');
-        }
-
-        // Decrement the counter of the current panel's color, unless it's gray
-        const currentColorCounter = this.colorCounters.find(counter => counter.getColor() === panel.getColor());
-        if (currentColorCounter && panel.getColor() !== PanelColor.GRAY) {
-            currentColorCounter.decrement();
         }
 
         // Clone the gameBoard and apply the color change
@@ -111,13 +111,19 @@ class GameController {
             this.flipPanels(panelsToFlip);
         }
 
-        // Increment the counter of the new panel's color
-        const newColorCounter = this.colorCounters.find(counter => counter.getColor() === this.selectedColor);
-        if (newColorCounter) {
-            newColorCounter.increment();
-        }
+        // Clone and update the color counters after the panel color has been changed
+        const newColorCounters = this.colorCounters.map(counter => new ColorCounter(counter.getColor(), counter.getColorName(), counter.getCount()));
+        this.updateColorCounters(newColorCounters, newGameBoard.getBoard().flat());
 
-        return newGameBoard;
+        return { newGameBoard, newColorCounters };
+    }
+
+    updateColorCounters(colorCounters: ColorCounter[], panels: Panel[]): void {
+        colorCounters.forEach(counter => {
+            // Count the panels of each color
+            const panelCount = panels.filter(panel => panel.getColor() === counter.getColor()).length;
+            counter.setCount(panelCount);
+        });
     }
 }
 
