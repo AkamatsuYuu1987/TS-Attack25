@@ -1,0 +1,32 @@
+@startuml
+participant User
+participant App
+participant GameBoardComponent
+participant GameController
+participant GameBoard
+participant ColorCounter
+participant AnimationService
+participant ColorCounterComponent
+
+User -> App : Click on Panel
+App -> GameBoardComponent : Handle click
+GameBoardComponent -> GameController : Request to apply color change
+GameController -> GameBoard : Generate list of panels to change color
+GameBoard --> GameController : Return list of panels
+GameController --> GameBoardComponent : Pass list of panels
+loop Until list is empty
+    GameBoardComponent -> AnimationService : Start animation for next panel
+    AnimationService --> GameBoardComponent : Notify animation start
+    GameBoardComponent -> GameController : Request to update ColorCounter and GameBoard
+    GameController -> GameBoard : Update GameBoard
+    GameBoard --> GameController : Confirm update
+    GameController -> GameBoardComponent : Update GameBoard display
+    GameBoardComponent --> GameController : Confirm update display
+    GameController -> ColorCounter : Update ColorCounter
+    ColorCounter --> GameController : Confirm update
+    GameController -> ColorCounterComponent : Update ColorCounter display
+    ColorCounterComponent --> GameController : Confirm update display
+    GameController -> GameBoardComponent : Confirm update display of this panel
+    GameBoardComponent --> GameBoardComponent : Remove panel from list
+end
+@enduml
