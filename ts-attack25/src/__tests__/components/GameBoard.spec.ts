@@ -19,9 +19,7 @@ describe('GameBoard.vue', () => {
         const defaultGameBoardDomain = new GameBoardDomain();
         const defaultGameController = new GameController(defaultGameBoardDomain, colorCounters);
         const wrapper = mount(GameBoard, {
-            props: {
-                gameController: defaultGameController
-            }
+            props: { gameController: defaultGameController },
         });
         expect(wrapper.findAllComponents(GameSquare)).toHaveLength(5 * 5);
     });
@@ -33,9 +31,7 @@ describe('GameBoard.vue', () => {
         const gameController = new GameController(gameBoardDomain, colorCounters);
 
         const wrapper = mount(GameBoard, {
-            props: {
-                gameController
-            }
+            props: { gameController },
         });
         expect(wrapper.findAllComponents(GameSquare)).toHaveLength(rows * cols);
     });
@@ -47,9 +43,7 @@ describe('GameBoard.vue', () => {
         const gameController = new GameController(gameBoardDomain, colorCounters);
 
         const wrapper = mount(GameBoard, {
-            props: {
-                gameController
-            }
+            props: { gameController },
         });
 
         const gameSquares = wrapper.findAllComponents(GameSquare);
@@ -66,9 +60,7 @@ describe('GameBoard.vue', () => {
         const gameController = new GameController(gameBoardDomain, colorCounters);
 
         const wrapper = mount(GameBoard, {
-            props: {
-                gameController
-            }
+            props: { gameController },
         });
 
         gameController.selectColor(PanelColor.RED);
@@ -109,21 +101,41 @@ describe('GameBoard.vue', () => {
         const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => { });
 
         const wrapper = mount(GameBoard, {
-            props: {
-                gameController
-            }
+            props: { gameController },
         });
 
         const gameSquares = wrapper.findAllComponents(GameSquare);
         await gameSquares[0].trigger('click');
 
-        // Check that no updateBoard event has been emitted
         expect(wrapper.emitted().updateBoard).toBeFalsy();
 
-        // Check that alert was called
-        expect(alertSpy).toHaveBeenCalledWith("Please select a color first!");
+        expect(alertSpy).toHaveBeenCalledWith('Please select a color first!');
 
         alertSpy.mockRestore();
     });
 
+    it('removes only the specified panel from panelsToChangeColor when removePanelFromChangeColorList is called', async () => {
+        const gameBoardDomain = new GameBoardDomain();
+        const gameController = new GameController(gameBoardDomain, colorCounters);
+        const wrapper = mount(GameBoard, {
+            props: { gameController },
+        });
+
+        const panel01 = new Panel(PanelColor.RED, 1, 0, 0);
+        const panel02 = new Panel(PanelColor.GREEN, 2, 0, 1);
+        const panel03 = new Panel(PanelColor.BLUE, 3, 0, 2);
+
+        wrapper.vm.panelsToChangeColor.push(panel01);
+        wrapper.vm.panelsToChangeColor.push(panel02);
+        wrapper.vm.panelsToChangeColor.push(panel03);
+
+        await wrapper.vm.removePanelFromChangeColorList(panel01);
+        expect(wrapper.vm.panelsToChangeColor).toEqual([panel02, panel03]);
+
+        await wrapper.vm.removePanelFromChangeColorList(panel02);
+        expect(wrapper.vm.panelsToChangeColor).toEqual([panel03]);
+
+        await wrapper.vm.removePanelFromChangeColorList(panel03);
+        expect(wrapper.vm.panelsToChangeColor).toEqual([]);
+    });
 });
