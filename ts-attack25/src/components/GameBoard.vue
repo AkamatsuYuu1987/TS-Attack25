@@ -12,11 +12,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import GameSquare from './GameSquare.vue';
 import GameController from '../domain/GameController';
-import {Panel} from '@/domain/panel';
-
 
 export default defineComponent({
   components: {
@@ -32,8 +30,6 @@ export default defineComponent({
     const displayAlert = (message: string) => {
       window.alert(message);
     };
-
-    const panelsToChangeColor = ref<Panel[]>([]);
 
     const onPanelClick = (panelNumber: number) => {
       // 色が選択されていない場合、処理を終了
@@ -52,18 +48,9 @@ export default defineComponent({
       emit('updateColorCounters', newColorCounters);
     };
 
-    const removePanelFromChangeColorList = (panel: Panel) => {
-      const index = panelsToChangeColor.value.indexOf(panel);
-      if (index !== -1) {
-        panelsToChangeColor.value.splice(index, 1);
-      }
-    };
-
     return {
       onPanelClick,
-      displayAlert,
-      panelsToChangeColor,
-      removePanelFromChangeColorList
+      displayAlert
     };
   }
 });
