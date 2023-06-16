@@ -16,6 +16,7 @@ loop Until panelsToChangeColor is empty
     GameBoardComponent -> AnimationService : startAnimation(panel)
     AnimationService --> GameBoardComponent : emit('animationStart')
     GameBoardComponent -> GameController : updateColorCounterAndGameBoard(panel)
+    activate GameController
     GameController -> GameBoard : changePanelColor(panel)
     GameBoard --> GameController : confirmUpdate
     GameController -> GameBoardComponent : updateGameBoardDisplay(panels)
@@ -24,7 +25,7 @@ loop Until panelsToChangeColor is empty
     ColorCounter --> GameController : confirmUpdate
     GameController -> ColorCounterComponent : updateColorCounterDisplay(newColorCounterValues)
     ColorCounterComponent --> GameController : confirmDisplayUpdate
-    GameController -> GameBoardComponent : confirmUpdateDisplayOfPanel(panel)
-    GameBoardComponent --> GameBoardComponent : removePanelFromList(panel)
+    deactivate GameController
+    GameBoardComponent --> GameBoardComponent : removePanelFromChangeColorList(panel)
 end
 @enduml
