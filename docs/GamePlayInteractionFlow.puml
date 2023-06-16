@@ -9,22 +9,25 @@ participant ColorCounterComponent
 
 User -> GameBoardComponent : onPanelClick(panelId)
 GameBoardComponent -> GameController : applyColorChange(panelId)
+activate GameController
 GameController -> GameBoard : getPanelsToChangeColor(panelId)
 GameBoard --> GameController : return panelsToChangeColor
 GameController --> GameBoardComponent : initiatePanelColorChange(panelsToChangeColor)
+deactivate GameController
 loop Until panelsToChangeColor is empty
     GameBoardComponent -> AnimationService : startAnimation(panel)
     AnimationService --> GameBoardComponent : emit('animationStart')
-    GameBoardComponent -> GameController : updateColorCounterAndGameBoard(panel)
     activate GameController
+    GameBoardComponent -> GameController : updateColorCounterAndGameBoard(panel)
     GameController -> GameBoard : changePanelColor(panel)
-    GameBoard --> GameController : confirmUpdate
+    GameBoard --> GameController
     GameController -> GameBoardComponent : updateGameBoardDisplay(panels)
-    GameBoardComponent --> GameController : confirmDisplayUpdate
+    GameBoardComponent --> GameController
     GameController -> ColorCounter : updateColorCounter()
-    ColorCounter --> GameController : confirmUpdate
+    ColorCounter --> GameController
     GameController -> ColorCounterComponent : updateColorCounterDisplay(newColorCounterValues)
-    ColorCounterComponent --> GameController : confirmDisplayUpdate
+    ColorCounterComponent --> GameController
+    GameController --> GameBoardComponent
     deactivate GameController
     GameBoardComponent --> GameBoardComponent : removePanelFromChangeColorList(panel)
 end
