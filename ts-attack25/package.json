@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue-class-component": "^8.0.0-0"
+    "vue-class-component": "^8.0.0-0",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.1",
