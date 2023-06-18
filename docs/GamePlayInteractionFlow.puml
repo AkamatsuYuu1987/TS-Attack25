@@ -1,34 +1,33 @@
 @startuml
 participant User
+participant AnimationService
 participant GameBoardComponent
 participant GameController
 participant GameBoard
 participant ColorCounter
-participant AnimationService
 participant ColorCounterComponent
 
 User -> GameBoardComponent : onPanelClick(panelId)
-GameBoardComponent -> GameController : applyColorChange(panelId)
+GameBoardComponent -> AnimationService: handlePanelClick(panelId)
+AnimationService->GameController: applyColorChange(panelId) 
 activate GameController
 GameController -> GameBoard : getPanelsToChangeColor(panelId)
 GameBoard --> GameController : return panelsToChangeColor
-GameController --> GameBoardComponent : initiatePanelColorChange(panelsToChangeColor)
+GameController --> AnimationService : initiatePanelColorChange(panelsToChangeColor)
 deactivate GameController
 loop Until panelsToChangeColor is empty
-    GameBoardComponent -> AnimationService : startAnimation(panel)
-    AnimationService --> GameBoardComponent : emit('animationStart')
+    AnimationService -> GameController : updateGameBoard(panel)
     activate GameController
-    GameBoardComponent -> GameController : updateColorCounterAndGameBoard(panel)
     GameController -> GameBoard : changePanelColor(panel)
     GameBoard --> GameController
-    GameController -> GameBoardComponent : updateGameBoardDisplay(panels)
-    GameBoardComponent --> GameController
-    GameController -> ColorCounter : updateColorCounter()
-    ColorCounter --> GameController
-    GameController -> ColorCounterComponent : updateColorCounterDisplay(newColorCounterValues)
-    ColorCounterComponent --> GameController
-    GameController --> GameBoardComponent
     deactivate GameController
-    GameBoardComponent --> GameBoardComponent : removePanelFromChangeColorList(panel)
+    AnimationService -> GameBoardComponent : updateGameBoardDisplay(panels)
+    AnimationService -> GameController : updateColorCounter()
+    activate GameController
+    GameController -> ColorCounter : changeColorCounter()
+    ColorCounter --> GameController
+    deactivate GameController
+    AnimationService-> ColorCounterComponent : updateColorCounterDisplay(newColorCounterValues)
+    AnimationService--> AnimationService: removePanelFromChangeColorList(panel)
 end
 @enduml
