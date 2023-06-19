@@ -25,15 +25,6 @@ describe('GameController', () => {
         expect(gameController.colorCounters[0]).toBeInstanceOf(ColorCounter);
     });
 
-    it('should update color counters correctly', () => {
-        const newGameBoard = _.cloneDeep(gameController.gameBoard);
-        const newColorCounters = _.cloneDeep(gameController.colorCounters);
-        gameController.updateColorCounters(newColorCounters, newGameBoard.getBoard().flat());
-
-        for (const counter of gameController.colorCounters) {
-            expect(counter.getCount()).toBe(0);
-        }
-    });
 
     it('should set color counters correctly', () => {
         const newColorCounters = [
@@ -66,13 +57,11 @@ describe('GameController', () => {
         gameController.selectColor(PanelColor.RED);
         let result = gameController.selectPanel(12);
         gameController.setGameBoard(result.newGameBoard);
-        gameController.updateColorCounters(gameController.colorCounters, result.newGameBoard.getBoard().flat());
 
         // Now change panel 12 to green
         gameController.selectColor(PanelColor.GREEN);
         result = gameController.selectPanel(12);
         gameController.setGameBoard(result.newGameBoard);
-        gameController.updateColorCounters(gameController.colorCounters, result.newGameBoard.getBoard().flat());
 
         // Verify that the red counter has decreased to 0 and the green counter has increased to 1
         const redCounter = gameController.colorCounters.find(counter => counter.getColor() === PanelColor.RED);

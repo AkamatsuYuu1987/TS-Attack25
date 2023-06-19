@@ -1,6 +1,7 @@
 // GameController.ts
 import GameBoard from './GameBoard';
 import ColorCounter from './ColorCounter';
+import ColorCounterBoard from './ColorCounterBoard';
 import { Panel, PanelColor } from './panel';
 
 type Direction = {
@@ -111,20 +112,16 @@ class GameController {
             this.flipPanels(panelsToFlip);
         }
 
-        // Clone and update the color counters after the panel color has been changed
-        const newColorCounters = this.colorCounters.map(counter => new ColorCounter(counter.getColor(), counter.getColorName(), counter.getCount()));
-        this.updateColorCounters(newColorCounters, newGameBoard.getBoard().flat());
+        // Update the color counters after the panel color has been changed
+        // ColorCounterBoardクラスを新規作成
+        // updateColorCountersメソッドを実行し、カウンターを更新する
+        const colorCounterBoard = new ColorCounterBoard(this.colorCounters);
+        colorCounterBoard.updateColorCounters(newGameBoard.getBoard().flat());
+        const newColorCounters = colorCounterBoard.getCounters();
 
         return { newGameBoard, newColorCounters };
     }
 
-    updateColorCounters(colorCounters: ColorCounter[], panels: Panel[]): void {
-        colorCounters.forEach(counter => {
-            // Count the panels of each color
-            const panelCount = panels.filter(panel => panel.getColor() === counter.getColor()).length;
-            counter.setCount(panelCount);
-        });
-    }
 }
 
 export default GameController;
