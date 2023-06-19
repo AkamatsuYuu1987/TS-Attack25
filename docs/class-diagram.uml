@@ -36,13 +36,13 @@ class GameBoard {
 class GameController {
   - gameBoard: GameBoard
   - selectedColor: PanelColor | null
-  - colorCounters: ColorCounter[]
-  + GameController(gameBoard: GameBoard, colorCounters: ColorCounter[])
-  + setColorCounters(colorCounters: ColorCounter[]): void
+  - colorCounterBoard: ColorCounterBoard
+  + GameController(gameBoard: GameBoard, colorCounterBoard: ColorCounterBoard)
+  + setColorCounterBoard(colorCounterBoard: ColorCounterBoard): void
   + setGameBoard(gameBoard: GameBoard): void
   + selectColor(color: PanelColor): void
-  + selectPanel(panelNumber: number): { newGameBoard: GameBoard, newColorCounters: ColorCounter[] }
-  + updateColorCounters(colorCounters: ColorCounter[], panels: Panel[]): void
+  + selectPanel(panelNumber: number): { newGameBoard: GameBoard, newColorCounterBoard: ColorCounterBoard }
+  + updateColorCounters(colorCounterBoard: ColorCounterBoard, panels: Panel[]): void
 }
 
 class ColorCounter {
@@ -56,9 +56,18 @@ class ColorCounter {
   + setCount(count: number): void
 }
 
+class ColorCounterBoard {
+  - counters: ColorCounter[]
+  + ColorCounterBoard(counters: ColorCounter[])
+  + getCounters(): ColorCounter[]
+  + setCounters(newCounters: ColorCounter[]): void
+  + updateCounters(panelArray: Panel[]): void
+}
+
 GameBoard --> Panel: uses
 GameController "1" -- "1" GameBoard
-GameController "1" -- "*" ColorCounter
+GameController "1" -- "1" ColorCounterBoard
+ColorCounterBoard "1" -- "*" ColorCounter
 ColorCounter o-- PanelColor
 
 @enduml
