@@ -23,6 +23,14 @@ class ColorCounterBoard {
             counter.setCount(panelCount);
         });
     }
+
+    changeColorCounters(panels: Panel[]): void {
+        this.counters.forEach(counter => {
+            // Count the panels of each color
+            const panelCount = panels.filter(panel => panel.getColor() === counter.getColor()).length;
+            counter.setCount(panelCount);
+        });
+    }
 }
 
 export default ColorCounterBoard;

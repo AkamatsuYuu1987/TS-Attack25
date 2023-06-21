@@ -40,4 +40,22 @@ describe('ColorCounterBoard', () => {
         expect(colorCounterBoard.getCounters()[2].getCount()).toEqual(1); // 1 Blue panel
 
     });
+
+    it('should change counters correctly', () => {
+
+        // newPanelsをgreen, red, blue, blue, whiteで作成
+        const newPanels = [
+            new Panel(PanelColor.GREEN, 1, 1, 1),
+            new Panel(PanelColor.RED, 2, 2, 2),
+            new Panel(PanelColor.BLUE, 3, 3, 3),
+            new Panel(PanelColor.BLUE, 4, 4, 4),
+            new Panel(PanelColor.GREEN, 5, 5, 5),
+        ];
+
+        // panelsをnewPanelsで更新
+        colorCounterBoard.changeColorCounters(newPanels);
+        expect(colorCounterBoard.getCounters()[0].getCount()).toEqual(1); // 1 Red panel
+        expect(colorCounterBoard.getCounters()[1].getCount()).toEqual(2); // 2 Green panel
+        expect(colorCounterBoard.getCounters()[2].getCount()).toEqual(2); // 2 Blue panels
+    });
 });
