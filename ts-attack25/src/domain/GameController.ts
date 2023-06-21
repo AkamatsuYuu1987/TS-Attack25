@@ -118,6 +118,11 @@ class GameController {
         return { newGameBoard, newColorCounterBoard };
     }
 
+    updateColorCounterboard(): ColorCounterBoard {
+        this.colorCounterBoard.changeColorCounters(this.gameBoard.getBoard().flat());
+        return this.colorCounterBoard;
+    }
+
 }
 
 export default GameController;
