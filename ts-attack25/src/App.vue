@@ -5,10 +5,9 @@
       <GameBoard 
         :gameController="gameController" 
         @updateBoard="updateBoard"
-        @updateColorCounters="updateColorCounters"
       />
       <ColorCounter 
-        :colorCounters="gameController.colorCounters" 
+        :colorCounterBoard="gameController.colorCounterBoard" 
         @selectColor="selectColor" 
       />
     </div>
@@ -23,6 +22,7 @@ import GameController from './domain/GameController';
 import GameBoard from './domain/GameBoard';
 import { PanelColor, Panel } from './domain/panel';
 import ColorCounter from './domain/ColorCounter';
+import ColorCounterBoard from './domain/ColorCounterBoard';
 
 export default defineComponent({
   components: {
@@ -47,7 +47,8 @@ export default defineComponent({
       PanelColor.WHITE,
     ].map(color => new ColorCounter(color, colorMap[color]!, 0));
 
-    const gameController = ref(new GameController(gameBoard, colorCounters));
+    const colorCounterBoard = new ColorCounterBoard(colorCounters);
+    const gameController = ref(new GameController(gameBoard, colorCounterBoard));
 
     const selectColor = (color: string) => {
       console.log(`Color selected: ${color}`);
@@ -60,15 +61,11 @@ export default defineComponent({
       gameController.value?.gameBoard.setBoard(newBoard);
     };
 
-    const updateColorCounters = (newColorCounters: ColorCounter[]) => {
-      gameController.value?.setColorCounters(newColorCounters);
-    };
 
     return {
       gameController,
       selectColor,
-      updateBoard,
-      updateColorCounters
+      updateBoard
     };
   }
 });
