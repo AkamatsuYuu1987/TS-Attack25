@@ -2,6 +2,7 @@
 import GameController from '@/domain/GameController';
 import GameBoard from '@/domain/GameBoard';
 import ColorCounter from '@/domain/ColorCounter';
+import ColorCounterBoard from '@/domain/ColorCounterBoard';
 import { Panel, PanelColor } from '@/domain/panel';
 import _ from 'lodash';
 
@@ -10,34 +11,18 @@ describe('GameController', () => {
 
     beforeEach(() => {
         const gameBoard = new GameBoard();
-        const colorCounters = [
+        const colorCounterBoard = new ColorCounterBoard([
             new ColorCounter(PanelColor.RED, 'red', 0),
             new ColorCounter(PanelColor.GREEN, 'green', 0),
             new ColorCounter(PanelColor.WHITE, 'white', 0),
             new ColorCounter(PanelColor.BLUE, 'blue', 0),
-        ];
-        gameController = new GameController(gameBoard, colorCounters);
+        ]);
+        gameController = new GameController(gameBoard, colorCounterBoard);
     });
 
-    it('should initialize with a game board and color counters', () => {
+    it('should initialize with a game board and color counter board', () => {
         expect(gameController.gameBoard).toBeInstanceOf(GameBoard);
-        expect(gameController.colorCounters.length).toBe(4);
-        expect(gameController.colorCounters[0]).toBeInstanceOf(ColorCounter);
-    });
-
-
-    it('should set color counters correctly', () => {
-        const newColorCounters = [
-            new ColorCounter(PanelColor.RED, 'red', 10),
-            new ColorCounter(PanelColor.GREEN, 'green', 20),
-            new ColorCounter(PanelColor.WHITE, 'white', 30),
-            new ColorCounter(PanelColor.BLUE, 'blue', 40),
-        ];
-        gameController.setColorCounters(newColorCounters);
-
-        for (let i = 0; i < newColorCounters.length; i++) {
-            expect(gameController.colorCounters[i].getCount()).toBe(newColorCounters[i].getCount());
-        }
+        expect(gameController.colorCounterBoard).toBeInstanceOf(ColorCounterBoard);
     });
 
     it('should be able to select a color', () => {
@@ -64,10 +49,16 @@ describe('GameController', () => {
         gameController.setGameBoard(result.newGameBoard);
 
         // Verify that the red counter has decreased to 0 and the green counter has increased to 1
-        const redCounter = gameController.colorCounters.find(counter => counter.getColor() === PanelColor.RED);
-        const greenCounter = gameController.colorCounters.find(counter => counter.getColor() === PanelColor.GREEN);
-        expect(redCounter!.getCount()).toBe(0);
-        expect(greenCounter!.getCount()).toBe(1);
+        const redCounter = gameController.colorCounterBoard.getCounters().find(counter => counter.getColor() === PanelColor.RED);
+        const greenCounter = gameController.colorCounterBoard.getCounters().find(counter => counter.getColor() === PanelColor.GREEN);
+
+        // Check if counters exist before proceeding with test
+        if (!redCounter || !greenCounter) {
+            throw new Error('Counter not found for specified color');
+        }
+
+        expect(redCounter.getCount()).toBe(0);
+        expect(greenCounter.getCount()).toBe(1);
     });
 
     it('should throw an error if a panel is selected before a color', () => {

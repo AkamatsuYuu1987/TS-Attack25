@@ -42,7 +42,6 @@ class GameController {
   + setGameBoard(gameBoard: GameBoard): void
   + selectColor(color: PanelColor): void
   + selectPanel(panelNumber: number): { newGameBoard: GameBoard, newColorCounterBoard: ColorCounterBoard }
-  + updateColorCounters(colorCounterBoard: ColorCounterBoard, panels: Panel[]): void
 }
 
 class ColorCounter {
@@ -67,7 +66,7 @@ class ColorCounterBoard {
 GameBoard --> Panel: uses
 GameController "1" -- "1" GameBoard
 GameController "1" -- "1" ColorCounterBoard
-ColorCounterBoard "1" -- "*" ColorCounter
+ColorCounterBoard --> ColorCounter: uses
 ColorCounter o-- PanelColor
 
 @enduml
