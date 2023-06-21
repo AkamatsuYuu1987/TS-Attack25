@@ -41,11 +41,9 @@ export default defineComponent({
       // Use the gameController to get the new gameBoard state
       const selectPanelResult = props.gameController.selectPanel(panelNumber);
       const newBoard = selectPanelResult.newGameBoard.getBoard();
-      const newColorCounters = selectPanelResult.newColorCounters;
 
       // Emit the new board and new color counters
       emit('updateBoard', newBoard);
-      emit('updateColorCounters', newColorCounters);
     };
 
     return {
