@@ -1,12 +1,15 @@
 @startuml
 participant User
 participant AnimationService
+participant GameBoardStore
 participant ColorCounterBoardStore
 participant GameBoardComponent
 participant GameController
 participant GameBoard
 participant ColorCounter
+participant GameBoardComponent
 participant ColorCounterComponent
+
 
 User -> GameBoardComponent : onPanelClick(panelId)
 GameBoardComponent -> AnimationService: handlePanelClick(panelId)
@@ -22,7 +25,9 @@ loop Until panelsToChangeColor is empty
     GameController -> GameBoard : changePanelColor(panel)
     GameBoard --> GameController
     deactivate GameController
-    AnimationService -> GameBoardComponent : updateGameBoardDisplay(panels)
+    AnimationService -> GameBoardStore : updateGameBoardState(newGameBoardState)
+    GameBoardStore -> GameBoardComponent: Notify Change
+    GameBoardComponent -> GameBoardComponent: compute()
     AnimationService -> GameController : updateColorCounter()
     activate GameController
     GameController -> ColorCounter : changeColorCounter()
