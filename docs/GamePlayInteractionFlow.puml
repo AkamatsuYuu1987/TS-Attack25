@@ -1,6 +1,7 @@
 @startuml
 participant User
 participant AnimationService
+participant ColorCounterBoardStore
 participant GameBoardComponent
 participant GameController
 participant GameBoard
@@ -27,7 +28,9 @@ loop Until panelsToChangeColor is empty
     GameController -> ColorCounter : changeColorCounter()
     ColorCounter --> GameController
     deactivate GameController
-    AnimationService-> ColorCounterComponent : updateColorCounterDisplay(newColorCounterValues)
+    AnimationService-> ColorCounterBoardStore : updateColorCounterBoardState(newColorCounterValues)
+    ColorCounterBoardStore -> ColorCounterComponent: Notify Change
+    ColorCounterComponent -> ColorCounterComponent: compute()
     AnimationService--> AnimationService: removePanelFromChangeColorList(panel)
 end
 @enduml
