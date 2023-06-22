@@ -35,6 +35,15 @@ export default class GameBoard {
         );
     }
 
+    public replaceSinglePanel(panel: Panel): void {
+        const newBoard = this.board.map(row =>
+            row.map(p => p.getNumber() === panel.getNumber()
+                ? new Panel(panel.getColor(), panel.getNumber(), panel.getRow(), panel.getColumn())
+                : p)
+        );
+        this.board = newBoard;
+    }
+
     // Added getter methods to access rows and cols
     public getRows(): number {
         return this.rows;
