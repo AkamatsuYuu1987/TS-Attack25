@@ -25,16 +25,15 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
 
         // Similarly, write test for REMOVE_PANEL_FROM_CHANGE_COLOR_LIST mutation
         it('REMOVE_PANEL_FROM_CHANGE_COLOR_LIST should remove panel from change color list', () => {
-            const state = {
-                ...(typeof defaultState === 'function' ? defaultState() : defaultState),
-                panelsToChangeColor: [{ color: PanelColor.RED, number: 1, row: 2, col: 3 }]
-            };
-
             const panel1 = new Panel(PanelColor.RED, 1, 2, 3);
             const panel2 = new Panel(PanelColor.BLUE, 4, 5, 6);
 
-            PanelClickAnimationServiceModule.mutations!.SET_PANELS_TO_CHANGE_COLOR(state, [panel1, panel2]);
+            const state = {
+                ...(typeof defaultState === 'function' ? defaultState() : defaultState),
+                panelsToChangeColor: [panel1]
+            };
 
+            PanelClickAnimationServiceModule.mutations!.SET_PANELS_TO_CHANGE_COLOR(state, [panel1, panel2]);
 
             PanelClickAnimationServiceModule.mutations!.REMOVE_PANEL_FROM_CHANGE_COLOR_LIST(state, panel1);
 
@@ -48,17 +47,6 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
 
     describe('actions', () => {
         // You can write tests for actions here. You will need to mock commit function and check if it gets called with correct arguments.
-        it('initiatePanelColorChange should commit SET_PANELS_TO_CHANGE_COLOR', async () => {
-            const commit = jest.fn();
-            const panel1 = new Panel(PanelColor.RED, 1, 2, 3);
-            const panel2 = new Panel(PanelColor.BLUE, 4, 5, 6);
-
-            // 型アサーションを使用して、関数として呼び出す
-            await (PanelClickAnimationServiceModule.actions!.initiatePanelColorChange as any)({ commit }, [panel1, panel2]);
-
-            expect(commit).toHaveBeenCalledWith('SET_PANELS_TO_CHANGE_COLOR', [panel1, panel2]);
-        });
-
         it('removePanelFromChangeColorList should commit REMOVE_PANEL_FROM_CHANGE_COLOR_LIST', async () => {
             const commit = jest.fn();
             const panel1 = new Panel(PanelColor.RED, 1, 2, 3);
@@ -74,9 +62,10 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
 
     describe('getters', () => {
         it('panelsToChangeColorGetter should return panels to change color', () => {
+            const panel1 = new Panel(PanelColor.RED, 1, 2, 3);
             const state = {
                 ...(typeof defaultState === 'function' ? defaultState() : defaultState),
-                panelsToChangeColor: [{ color: PanelColor.RED, number: 1, row: 2, col: 3 }]
+                panelsToChangeColor: [panel1]
             };
 
             const result = PanelClickAnimationServiceModule.getters!.panelsToChangeColorGetter(state, {}, {}, {});

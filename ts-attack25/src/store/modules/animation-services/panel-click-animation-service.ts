@@ -1,16 +1,11 @@
 // panel-click-animation-service.ts
-import { Module, Commit, ActionTree } from 'vuex';
-import { Panel, PanelColor } from '@/domain/panel';
+import { Module, ActionTree } from 'vuex';
+import { Panel } from '@/domain/panel';
+import GameController from '@/domain/GameController';
 
-interface PanelData {
-    color: PanelColor;
-    number: number;
-    row: number;
-    col: number;
-}
 
 interface State {
-    panelsToChangeColor: PanelData[];
+    panelsToChangeColor: Panel[];
 }
 
 const state = (): State => ({
@@ -23,26 +18,10 @@ const getters = {
 
 const mutations = {
     SET_PANELS_TO_CHANGE_COLOR(state: State, panels: Panel[]) {
-        state.panelsToChangeColor = panels.map(panel => ({
-            color: panel.getColor(),
-            number: panel.getNumber(),
-            row: panel.getRow(),
-            col: panel.getColumn()
-        }));
+        state.panelsToChangeColor = panels;
     },
     REMOVE_PANEL_FROM_CHANGE_COLOR_LIST(state: State, panel: Panel) {
-        const panelData = {
-            color: panel.getColor(),
-            number: panel.getNumber(),
-            row: panel.getRow(),
-            col: panel.getColumn()
-        };
-        const index = state.panelsToChangeColor.findIndex(p =>
-            p.color === panelData.color &&
-            p.number === panelData.number &&
-            p.row === panelData.row &&
-            p.col === panelData.col
-        );
+        const index = state.panelsToChangeColor.findIndex(p => p === panel);
         if (index > -1) {
             state.panelsToChangeColor.splice(index, 1);
         }
@@ -50,12 +29,37 @@ const mutations = {
 }
 
 const actions: ActionTree<State, unknown> = {
-    initiatePanelColorChange({ commit }: { commit: Commit }, panels: Panel[]) {
-        commit('SET_PANELS_TO_CHANGE_COLOR', panels);
+    async animateOnPanelClick(context, panels: Panel[]) {
+        context.commit('SET_PANELS_TO_CHANGE_COLOR', panels);
+
+        // game-board-store.tsからgameBoardGetterを呼び出す
+        const gameBoard = context.rootGetters['GameBoardStoreModule/gameBoardGetter'];
+
+        // game-controller-store.tsからcolorCounterBoardGetterを呼び出す
+        const colorCounterBoard = context.rootGetters['ColorCounterBoardStoreModule/colorCounterBoardGetter'];
+
+        // gameControllerをnewする
+        const gameController = new GameController(gameBoard, colorCounterBoard);
+
+        // Assuming AnimationService, GameController, etc. are available here
+        while (context.state.panelsToChangeColor.length > 0) {
+            const panel = context.state.panelsToChangeColor[0];
+
+            // Update game board in GameController
+            await gameController.updateGameBoard(panel);
+
+            // gameControllerのgameBoardをgame-board-store.tsにわたす
+            await context.dispatch('GameControllerStoreModule/updateGameBoard', gameController.gameBoard);
+
+            // Update color counter in GameController
+            await gameController.updateColorCounterboard();
+
+            // Remove panel from change color list
+            context.commit('REMOVE_PANEL_FROM_CHANGE_COLOR_LIST', panel);
+        }
     },
-    // Remove panel from change color list
-    removePanelFromChangeColorList({ commit }: { commit: Commit }, panel: Panel) {
-        commit('REMOVE_PANEL_FROM_CHANGE_COLOR_LIST', panel);
+    removePanelFromChangeColorList(context, panel: Panel) {
+        context.commit('REMOVE_PANEL_FROM_CHANGE_COLOR_LIST', panel);
     }
 }
 
