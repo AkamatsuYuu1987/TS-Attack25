@@ -123,6 +123,11 @@ class GameController {
         return this.colorCounterBoard;
     }
 
+    updateGameBoard(panel: Panel): GameBoard {
+        this.gameBoard.replaceSinglePanel(panel);
+        return this.gameBoard;
+    }
+
 }
 
 export default GameController;
