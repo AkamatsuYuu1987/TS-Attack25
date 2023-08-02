@@ -2,7 +2,7 @@ import ColorCounter from './ColorCounter';
 import { Panel } from './panel';
 
 class ColorCounterBoard {
-    private counters: ColorCounter[];
+    protected counters: ColorCounter[];
 
     constructor(counters: ColorCounter[]) {
         this.counters = counters;
@@ -16,7 +16,7 @@ class ColorCounterBoard {
         this.counters = newCounters;
     }
 
-    updateColorCounters(panels: Panel[]): void {
+    public updateColorCounters(panels: Panel[]): void {
         this.counters.forEach(counter => {
             // Count the panels of each color
             const panelCount = panels.filter(panel => panel.getColor() === counter.getColor()).length;
