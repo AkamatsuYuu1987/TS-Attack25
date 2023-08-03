@@ -13,10 +13,7 @@ export class MockGameBoard extends GameBoard {
 
 export class MockColorCounterBoard extends ColorCounterBoard {
     constructor(counters: ColorCounter[]) {
-        console.log('mock color counter board')
-        console.log(counters);
         super(counters);
         this.counters = counters;
-        console.log(this.counters)
     }
 }

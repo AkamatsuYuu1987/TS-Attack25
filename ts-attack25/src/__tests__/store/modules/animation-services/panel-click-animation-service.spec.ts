@@ -2,8 +2,7 @@
 import { PanelClickAnimationServiceModule } from '@/store/modules/animation-services/panel-click-animation-service';
 import { Panel, PanelColor } from '@/domain/panel';
 import ColorCounter from '@/domain/ColorCounter';
-import { MockGameBoard, MockColorCounterBoard } from '@/__tests__/mocks';
-import ColorCounterBoard from '@/domain/ColorCounterBoard';
+import { MockGameBoard, MockColorCounterBoard } from '@/mocks/mocks';
 
 const defaultState = PanelClickAnimationServiceModule.state;
 
@@ -70,13 +69,7 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
                 [new Panel(PanelColor.GREEN, 4, 1, 0), new Panel(PanelColor.RED, 5, 1, 1), new Panel(PanelColor.GREEN, 6, 1, 2)],
                 [new Panel(PanelColor.BLUE, 7, 2, 0), new Panel(PanelColor.GREEN, 8, 2, 1), new Panel(PanelColor.GREEN, 9, 2, 2)]
             ];
-
-            // gameBoardInitialからPanelColorのみを抜き出したものを作成
-            // const gameBoardInitialColors: PanelColor[][] = gameBoardInitial.map(row => row.map(panel => panel.getColor()));
-
-            // console.log(gameBoardInitialColors)
-
-
+            
             const mockGameBoard = new MockGameBoard(gameBoardInitial);
 
             const colorCounterBoardInitial = [

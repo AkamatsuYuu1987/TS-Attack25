@@ -43,16 +43,13 @@ const actions: ActionTree<State, unknown> = {
 
         // gameControllerをnewする
         const gameController = new GameController(gameBoard, colorCounterBoard);
-        // console.log('before while loop')
-        // console.log(panelsToChangeColor)
+
         // Assuming AnimationService, GameController, etc. are available here
         while (panelsToChangeColor.length > 0) {
             const panel = panelsToChangeColor[0];
-            // console.log('panelsToChange', panel)
+
             // Update game board in GameController
             const updatedGameBoard = await gameController.updateGameBoard(panel);
-
-            // console.log('before dispatch', updatedGameBoard);
 
             // gameControllerのgameBoardをgame-board-store.tsにわたす
             await context.dispatch('GameControllerStoreModule/updateGameBoard', updatedGameBoard);
@@ -60,12 +57,8 @@ const actions: ActionTree<State, unknown> = {
             // dispatchした結果をgetter経由で取得する
             // const gameBoard = context.rootGetters['GameControllerStoreModule/gameBoardGetter'] as GameBoard;
 
-            // console.log('after dispatch', gameBoard);
-
             // Update color counter in GameController
             const updatedColorCounterBoard = await gameController.updateColorCounterboard();
-
-            console.log('updatedColorCounterBoard', updatedColorCounterBoard);
 
             // gameControllerのcolorCounterBoardをcolor-counter-board-store.tsにわたす
             await context.dispatch('GameControllerStoreModule/updateColorCounterBoard', updatedColorCounterBoard);
