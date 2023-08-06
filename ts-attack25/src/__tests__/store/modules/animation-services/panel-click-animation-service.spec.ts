@@ -10,7 +10,6 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
     describe('actions', () => {
 
         it('animateOnPanelClick should animate panels and update game', async () => {
-            const commit = jest.fn();
             const dispatch = jest.fn();
             const panel1 = new Panel(PanelColor.RED, 2, 0, 1);
             const panel2 = new Panel(PanelColor.RED, 3, 0, 2);
@@ -41,7 +40,7 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
             };
 
             // animateOnPanelClickにpanelsToChangeColorを渡して呼び出す
-            await (PanelClickAnimationServiceModule.actions!.animateOnPanelClick as any)({ commit, dispatch, rootGetters }, panelsToChangeColor);
+            await (PanelClickAnimationServiceModule.actions!.animateOnPanelClick as any)({ dispatch, rootGetters }, panelsToChangeColor);
 
             const gameBoardAfter: Panel[][] = [
                 [new Panel(PanelColor.RED, 1, 0, 0), new Panel(PanelColor.RED, 2, 0, 1), new Panel(PanelColor.RED, 3, 0, 2)],
