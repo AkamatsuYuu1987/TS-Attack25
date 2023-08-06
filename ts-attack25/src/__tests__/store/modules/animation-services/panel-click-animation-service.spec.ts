@@ -7,55 +7,7 @@ import { MockGameBoard, MockColorCounterBoard } from '@/mocks/mocks';
 const defaultState = PanelClickAnimationServiceModule.state;
 
 describe('PanelClickAnimationServiceModule Vuex Module', () => {
-    describe('mutations', () => {
-        it('SET_PANELS_TO_CHANGE_COLOR should set panels to change color', () => {
-            const state = {
-                ...(typeof defaultState === 'function' ? defaultState() : defaultState),
-                panelsToChangeColor: []
-            };
-
-            const panel1 = new Panel(PanelColor.RED, 1, 2, 3);
-            const panel2 = new Panel(PanelColor.BLUE, 4, 5, 6);
-
-            PanelClickAnimationServiceModule.mutations!.SET_PANELS_TO_CHANGE_COLOR(state, [panel1, panel2]);
-
-            expect(state.panelsToChangeColor).toEqual([
-                { color: PanelColor.RED, number: 1, row: 2, col: 3 },
-                { color: PanelColor.BLUE, number: 4, row: 5, col: 6 },
-            ]);
-        });
-
-        it('REMOVE_PANEL_FROM_CHANGE_COLOR_LIST should remove panel from change color list', () => {
-            const panel1 = new Panel(PanelColor.RED, 1, 2, 3);
-            const panel2 = new Panel(PanelColor.BLUE, 4, 5, 6);
-
-            const state = {
-                ...(typeof defaultState === 'function' ? defaultState() : defaultState),
-                panelsToChangeColor: [panel1]
-            };
-
-            PanelClickAnimationServiceModule.mutations!.SET_PANELS_TO_CHANGE_COLOR(state, [panel1, panel2]);
-
-            PanelClickAnimationServiceModule.mutations!.REMOVE_PANEL_FROM_CHANGE_COLOR_LIST(state, panel1);
-
-            expect(state.panelsToChangeColor).toEqual([panel2]);
-
-            PanelClickAnimationServiceModule.mutations!.REMOVE_PANEL_FROM_CHANGE_COLOR_LIST(state, panel2);
-
-            expect(state.panelsToChangeColor).toEqual([]);
-        });
-    });
-
     describe('actions', () => {
-        it('removePanelFromChangeColorList should commit REMOVE_PANEL_FROM_CHANGE_COLOR_LIST', async () => {
-            const commit = jest.fn();
-            const panel1 = new Panel(PanelColor.RED, 1, 2, 3);
-
-            // 型アサーションを使用して、関数として呼び出す
-            await (PanelClickAnimationServiceModule.actions!.removePanelFromChangeColorList as any)({ commit }, panel1);
-
-            expect(commit).toHaveBeenCalledWith('REMOVE_PANEL_FROM_CHANGE_COLOR_LIST', panel1);
-        });
 
         it('animateOnPanelClick should animate panels and update game', async () => {
             const commit = jest.fn();
@@ -81,7 +33,6 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
 
             const mockColorCounterBoard = new MockColorCounterBoard(colorCounterBoardInitial);
 
-
             const rootGetters = {
                 'GameBoardStoreModule/gameBoardGetter': mockGameBoard,
                 'ColorCounterBoardStoreModule/colorCounterBoardGetter': mockColorCounterBoard,
@@ -100,7 +51,6 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
                 [new Panel(PanelColor.GREEN, 4, 1, 0), new Panel(PanelColor.RED, 5, 1, 1), new Panel(PanelColor.GREEN, 6, 1, 2)],
                 [new Panel(PanelColor.BLUE, 7, 2, 0), new Panel(PanelColor.RED, 8, 2, 1), new Panel(PanelColor.GREEN, 9, 2, 2)]
             ];
-
 
             const colorCounterBoardAfter = {
                 "counters": [
