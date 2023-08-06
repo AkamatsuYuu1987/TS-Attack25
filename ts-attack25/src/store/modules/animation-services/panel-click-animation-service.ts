@@ -14,10 +14,6 @@ const state = (): State => ({
     panelsToChangeColor: [],
 })
 
-const getters = {
-    panelsToChangeColorGetter: (state: State) => state.panelsToChangeColor,
-}
-
 const actions: ActionTree<State, unknown> = {
     async animateOnPanelClick(context, panelsToChangeColor: Panel[]) {
 
@@ -51,6 +47,5 @@ const actions: ActionTree<State, unknown> = {
 export const PanelClickAnimationServiceModule: Module<State, unknown> = {
     namespaced: true,
     state,
-    getters,
     actions,
 };

@@ -65,18 +65,4 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
             expect(rootGetters['ColorCounterBoardStoreModule/colorCounterBoardGetter']).toEqual(colorCounterBoardAfter);
         });
     });
-
-    describe('getters', () => {
-        it('panelsToChangeColorGetter should return panels to change color', () => {
-            const panel1 = new Panel(PanelColor.RED, 1, 2, 3);
-            const state = {
-                ...(typeof defaultState === 'function' ? defaultState() : defaultState),
-                panelsToChangeColor: [panel1]
-            };
-
-            const result = PanelClickAnimationServiceModule.getters!.panelsToChangeColorGetter(state, {}, {}, {});
-
-            expect(result).toEqual([{ color: PanelColor.RED, number: 1, row: 2, col: 3 }]);
-        });
-    });
 });
