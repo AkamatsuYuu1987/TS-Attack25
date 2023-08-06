@@ -7,11 +7,9 @@ import ColorCounterBoard from '@/domain/ColorCounterBoard';
 
 
 interface State {
-    panelsToChangeColor: Panel[];
 }
 
 const state = (): State => ({
-    panelsToChangeColor: [],
 })
 
 const actions: ActionTree<State, unknown> = {

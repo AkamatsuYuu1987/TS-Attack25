@@ -16,6 +16,8 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
             const panel2 = new Panel(PanelColor.RED, 3, 0, 2);
             const panel3 = new Panel(PanelColor.RED, 8, 2, 1);
 
+            const panelsToChangeColor = [panel1, panel2, panel3];
+
             const gameBoardInitial: Panel[][] = [
                 [new Panel(PanelColor.RED, 1, 0, 0), new Panel(PanelColor.GREEN, 2, 0, 1), new Panel(PanelColor.BLUE, 3, 0, 2)],
                 [new Panel(PanelColor.GREEN, 4, 1, 0), new Panel(PanelColor.RED, 5, 1, 1), new Panel(PanelColor.GREEN, 6, 1, 2)],
@@ -38,13 +40,8 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
                 'ColorCounterBoardStoreModule/colorCounterBoardGetter': mockColorCounterBoard,
             };
 
-            const state = {
-                ...(typeof defaultState === 'function' ? defaultState() : defaultState),
-                panelsToChangeColor: [panel1, panel2, panel3],
-            };
-
             // animateOnPanelClickにpanelsToChangeColorを渡して呼び出す
-            await (PanelClickAnimationServiceModule.actions!.animateOnPanelClick as any)({ commit, dispatch, rootGetters, state }, state.panelsToChangeColor);
+            await (PanelClickAnimationServiceModule.actions!.animateOnPanelClick as any)({ commit, dispatch, rootGetters }, panelsToChangeColor);
 
             const gameBoardAfter: Panel[][] = [
                 [new Panel(PanelColor.RED, 1, 0, 0), new Panel(PanelColor.RED, 2, 0, 1), new Panel(PanelColor.RED, 3, 0, 2)],
