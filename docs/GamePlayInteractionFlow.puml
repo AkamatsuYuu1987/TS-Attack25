@@ -19,7 +19,7 @@ GameController -> GameBoard : getPanelsToChangeColor(panelId)
 GameBoard --> GameController : return panelsToChangeColor
 GameController --> AnimationService : initiatePanelColorChange(panelsToChangeColor)
 deactivate GameController
-loop Until panelsToChangeColor is empty
+loop Until panels in panelsToChangeColor are all done
     AnimationService -> GameController : updateGameBoard(panel)
     activate GameController
     GameController -> GameBoard : changePanelColor(panel)
@@ -36,6 +36,5 @@ loop Until panelsToChangeColor is empty
     AnimationService-> ColorCounterBoardStore : updateColorCounterBoardState(newColorCounterValues)
     ColorCounterBoardStore -> ColorCounterComponent: Notify Change
     ColorCounterComponent -> ColorCounterComponent: compute()
-    AnimationService--> AnimationService: removePanelFromChangeColorList(panel)
 end
 @enduml

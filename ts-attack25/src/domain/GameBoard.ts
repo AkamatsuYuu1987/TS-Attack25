@@ -1,7 +1,7 @@
 import { Panel, PanelColor } from '@/domain/panel';
 
 export default class GameBoard {
-    private board: Panel[][];
+    protected board: Panel[][];
     private rows: number;
     private cols: number;
 
