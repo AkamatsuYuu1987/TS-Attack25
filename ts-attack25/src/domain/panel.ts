@@ -1,3 +1,4 @@
+// panel.ts
 export enum PanelColor {
   RED = 1,
   GREEN,

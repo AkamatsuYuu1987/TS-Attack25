@@ -60,4 +60,11 @@ describe('GameBoard', () => {
     test('getCols returns correct column count', () => {
         expect(gameBoard.getCols()).toBe(cols);
     });
+
+    it('should replace a single panel correctly', () => {
+        const newPanel = new Panel(PanelColor.RED, 1, 0, 0);
+        gameBoard.replaceSinglePanel(newPanel);
+        const board = gameBoard.getBoard();
+        expect(board[0][0]).toEqual(newPanel);
+    });
 });

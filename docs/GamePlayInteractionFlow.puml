@@ -1,0 +1,40 @@
+@startuml
+participant User
+participant AnimationService
+participant GameBoardStore
+participant ColorCounterBoardStore
+participant GameBoardComponent
+participant GameController
+participant GameBoard
+participant ColorCounter
+participant GameBoardComponent
+participant ColorCounterComponent
+
+
+User -> GameBoardComponent : onPanelClick(panelId)
+GameBoardComponent -> AnimationService: handlePanelClick(panelId)
+AnimationService->GameController: applyColorChange(panelId) 
+activate GameController
+GameController -> GameBoard : getPanelsToChangeColor(panelId)
+GameBoard --> GameController : return panelsToChangeColor
+GameController --> AnimationService : initiatePanelColorChange(panelsToChangeColor)
+deactivate GameController
+loop Until panels in panelsToChangeColor are all done
+    AnimationService -> GameController : updateGameBoard(panel)
+    activate GameController
+    GameController -> GameBoard : changePanelColor(panel)
+    GameBoard --> GameController
+    deactivate GameController
+    AnimationService -> GameBoardStore : updateGameBoardState(newGameBoardState)
+    GameBoardStore -> GameBoardComponent: Notify Change
+    GameBoardComponent -> GameBoardComponent: compute()
+    AnimationService -> GameController : updateColorCounter()
+    activate GameController
+    GameController -> ColorCounter : changeColorCounter()
+    ColorCounter --> GameController
+    deactivate GameController
+    AnimationService-> ColorCounterBoardStore : updateColorCounterBoardState(newColorCounterValues)
+    ColorCounterBoardStore -> ColorCounterComponent: Notify Change
+    ColorCounterComponent -> ColorCounterComponent: compute()
+end
+@enduml

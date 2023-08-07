@@ -1,7 +1,7 @@
 import { Panel, PanelColor } from '@/domain/panel';
 
 export default class GameBoard {
-    private board: Panel[][];
+    protected board: Panel[][];
     private rows: number;
     private cols: number;
 
@@ -33,6 +33,15 @@ export default class GameBoard {
                 ? new Panel(color, panel.getNumber(), panel.getRow(), panel.getColumn())
                 : panel)
         );
+    }
+
+    public replaceSinglePanel(panel: Panel): void {
+        const newBoard = this.board.map(row =>
+            row.map(p => p.getNumber() === panel.getNumber()
+                ? new Panel(panel.getColor(), panel.getNumber(), panel.getRow(), panel.getColumn())
+                : p)
+        );
+        this.board = newBoard;
     }
 
     // Added getter methods to access rows and cols

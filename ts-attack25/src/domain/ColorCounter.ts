@@ -20,16 +20,6 @@ class ColorCounter {
     return this.colorName;
   }
 
-  increment(): void {
-    this.count++;
-  }
-
-  decrement(): void {
-    if(this.count > 0) {
-      this.count--;
-    }
-  }
-
   getCount(): number {
     return this.count;
   }

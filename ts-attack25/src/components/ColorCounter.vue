@@ -2,7 +2,7 @@
 <template>
   <div class="color-counter">
     <div class="color-box"
-         v-for="colorCounter in colorCounters"
+         v-for="colorCounter in colorCounterBoard.counters"
          :key="colorCounter.color"
          :class="colorCounter.colorName"
          @click="$emit('selectColor', colorCounter.color)"
@@ -14,12 +14,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import ColorCounterType from '../domain/ColorCounter';
+import ColorCounterBoardType from '@/domain/ColorCounterBoard';
 
 export default defineComponent({
   props: {
-    colorCounters: {
-      type: Array as PropType<ColorCounterType[]>,
+    colorCounterBoard: {
+      type: Object as PropType<ColorCounterBoardType>,
       required: true
     }
   }

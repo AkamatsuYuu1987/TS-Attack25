@@ -1,6 +1,6 @@
 // GameController.ts
 import GameBoard from './GameBoard';
-import ColorCounter from './ColorCounter';
+import ColorCounterBoard from './ColorCounterBoard';
 import { Panel, PanelColor } from './panel';
 
 type Direction = {
@@ -10,7 +10,7 @@ type Direction = {
 
 class GameController {
     gameBoard: GameBoard;
-    colorCounters: ColorCounter[];
+    colorCounterBoard: ColorCounterBoard;
     selectedColor: PanelColor | null = null;
 
     // 八方向を示すオフセット
@@ -25,14 +25,14 @@ class GameController {
         { rowOffset: 1, columnOffset: 1 }  // 右下
     ];
 
-    constructor(gameBoard: GameBoard, colorCounters: ColorCounter[]) {
+    constructor(gameBoard: GameBoard, colorCounterBoard: ColorCounterBoard) {
         this.gameBoard = gameBoard;
-        this.colorCounters = colorCounters;
+        this.colorCounterBoard = colorCounterBoard;
     }
 
-    // ColorCountersを設定するメソッド
-    setColorCounters(colorCounters: ColorCounter[]): void {
-        this.colorCounters = colorCounters;
+    // colorCounterBoardを設定するメソッド
+    setColorCounterBoard(colorCounterBoard: ColorCounterBoard): void {
+        this.colorCounterBoard = colorCounterBoard;
     }
 
     private isPositionValid(board: Panel[][], row: number, col: number): boolean {
@@ -85,7 +85,7 @@ class GameController {
         this.selectedColor = color;
     }
 
-    selectPanel(panelNumber: number): { newGameBoard: GameBoard, newColorCounters: ColorCounter[] } {
+    selectPanel(panelNumber: number): { newGameBoard: GameBoard, newColorCounterBoard: ColorCounterBoard } {
         if (this.selectedColor === null) {
             throw new Error('No color has been selected');
         }
@@ -97,7 +97,7 @@ class GameController {
         }
 
         // Clone the gameBoard and apply the color change
-        const newGameBoard = new GameBoard(this.gameBoard.getBoard().length, this.gameBoard.getBoard()[0].length);
+        const newGameBoard = new GameBoard(this.gameBoard.getRows(), this.gameBoard.getCols());
         newGameBoard.setBoard(this.gameBoard.getBoard().map(row => row.map(panel => new Panel(panel.getColor(), panel.getNumber(), panel.getRow(), panel.getColumn()))));
 
         // Change the color of the selected panel
@@ -111,20 +111,23 @@ class GameController {
             this.flipPanels(panelsToFlip);
         }
 
-        // Clone and update the color counters after the panel color has been changed
-        const newColorCounters = this.colorCounters.map(counter => new ColorCounter(counter.getColor(), counter.getColorName(), counter.getCount()));
-        this.updateColorCounters(newColorCounters, newGameBoard.getBoard().flat());
+        // Create a new ColorCounterBoard and update the counters based on the new game board
+        this.colorCounterBoard.updateColorCounters(newGameBoard.getBoard().flat());
+        const newColorCounterBoard = this.colorCounterBoard;
 
-        return { newGameBoard, newColorCounters };
+        return { newGameBoard, newColorCounterBoard };
     }
 
-    updateColorCounters(colorCounters: ColorCounter[], panels: Panel[]): void {
-        colorCounters.forEach(counter => {
-            // Count the panels of each color
-            const panelCount = panels.filter(panel => panel.getColor() === counter.getColor()).length;
-            counter.setCount(panelCount);
-        });
+    updateColorCounterboard(): ColorCounterBoard {
+        this.colorCounterBoard.changeColorCounters(this.gameBoard.getBoard().flat());
+        return this.colorCounterBoard;
     }
+
+    updateGameBoard(panel: Panel): GameBoard {
+        this.gameBoard.replaceSinglePanel(panel);
+        return this.gameBoard;
+    }
+
 }
 
 export default GameController;
