@@ -2,6 +2,7 @@
 import GameBoard from './GameBoard';
 import ColorCounterBoard from './ColorCounterBoard';
 import { Panel, PanelColor } from './panel';
+import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
 
 type Direction = {
     rowOffset: number;
@@ -12,6 +13,7 @@ class GameController {
     gameBoard: GameBoard;
     colorCounterBoard: ColorCounterBoard;
     selectedColor: PanelColor | null = null;
+    selectPanelExecutor: SelectPanelExecutor;
 
     // 八方向を示すオフセット
     private directions: Direction[] = [
@@ -25,9 +27,10 @@ class GameController {
         { rowOffset: 1, columnOffset: 1 }  // 右下
     ];
 
-    constructor(gameBoard: GameBoard, colorCounterBoard: ColorCounterBoard) {
+    constructor(gameBoard: GameBoard, colorCounterBoard: ColorCounterBoard, selectPanelExecutor: SelectPanelExecutor) {
         this.gameBoard = gameBoard;
         this.colorCounterBoard = colorCounterBoard;
+        this.selectPanelExecutor = selectPanelExecutor;
     }
 
     // colorCounterBoardを設定するメソッド
