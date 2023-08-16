@@ -70,16 +70,6 @@ class GameController {
         return [];
     }
 
-    private flipPanels(panels: Panel[]) {
-        if (this.selectedColor === null) {
-            throw new Error('No color has been selected');
-        }
-
-        for (const panel of panels) {
-            panel.setColor(this.selectedColor);
-        }
-    }
-
     setGameBoard(gameBoard: GameBoard): void {
         this.gameBoard = gameBoard;
     }
@@ -132,7 +122,7 @@ class GameController {
         const startCol = panel.getColumn();
         for (const dir of this.directions) {
             const panelsToFlip = this.findPanelsToFlip(gameBoard, startRow, startCol, dir);
-            this.flipPanels(panelsToFlip);
+            this.selectPanelExecutor.flipPanels(panelsToFlip, this.selectedColor)
         }
     }
 
