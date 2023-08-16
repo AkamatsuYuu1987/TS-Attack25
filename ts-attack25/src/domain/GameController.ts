@@ -38,13 +38,8 @@ class GameController {
         this.colorCounterBoard = colorCounterBoard;
     }
 
-
-    private incrementPosition(row: number, col: number, dir: Direction): [number, number] {
-        return [row + dir.rowOffset, col + dir.columnOffset];
-    }
-
     private findPanelsToFlip(board: Panel[][], startRow: number, startCol: number, dir: Direction): Panel[] {
-        let [row, col] = this.incrementPosition(startRow, startCol, dir);
+        let [row, col] = this.selectPanelExecutor.incrementPosition(startRow, startCol, dir);
         const panelsToFlip: Panel[] = [];
 
         while (this.selectPanelExecutor.isPositionValid(board, row, col)) {
@@ -61,7 +56,7 @@ class GameController {
                 panelsToFlip.push(currentPanel);
             }
 
-            [row, col] = this.incrementPosition(row, col, dir);
+            [row, col] = this.selectPanelExecutor.incrementPosition(row, col, dir);
         }
 
         return [];
