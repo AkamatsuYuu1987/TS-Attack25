@@ -15,4 +15,8 @@ export default class SelectPanelExecutor {
         }
     }
 
+    public isPositionValid(board: Panel[][], row: number, col: number): boolean {
+        return row >= 0 && row < board.length && col >= 0 && col < board[0].length && board[row][col] !== undefined;
+    }
+
 }

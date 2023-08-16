@@ -38,9 +38,6 @@ class GameController {
         this.colorCounterBoard = colorCounterBoard;
     }
 
-    private isPositionValid(board: Panel[][], row: number, col: number): boolean {
-        return row >= 0 && row < board.length && col >= 0 && col < board[0].length && board[row][col] !== undefined;
-    }
 
     private incrementPosition(row: number, col: number, dir: Direction): [number, number] {
         return [row + dir.rowOffset, col + dir.columnOffset];
@@ -50,7 +47,7 @@ class GameController {
         let [row, col] = this.incrementPosition(startRow, startCol, dir);
         const panelsToFlip: Panel[] = [];
 
-        while (this.isPositionValid(board, row, col)) {
+        while (this.selectPanelExecutor.isPositionValid(board, row, col)) {
             const currentPanel = board[row][col];
 
             if (currentPanel.getColor() == this.selectedColor) {
