@@ -42,4 +42,28 @@ export default class SelectPanelExecutor {
         return [row + dir.rowOffset, col + dir.columnOffset];
     }
 
+    public findPanelsToFlip(board: Panel[][], startRow: number, startCol: number, dir: Direction, selectedColor: PanelColor | null): Panel[] {
+        let [row, col] = this.incrementPosition(startRow, startCol, dir);
+        const panelsToFlip: Panel[] = [];
+
+        while (this.isPositionValid(board, row, col)) {
+            const currentPanel = board[row][col];
+
+            if (currentPanel.getColor() == selectedColor) {
+                // Same color found, return the list
+                return panelsToFlip;
+            } else if (currentPanel.getColor() == PanelColor.GRAY) {
+                // Empty panel, stop looking in this direction
+                return [];
+            } else {
+                // Different color, add to list
+                panelsToFlip.push(currentPanel);
+            }
+
+            [row, col] = this.incrementPosition(row, col, dir);
+        }
+
+        return [];
+    }
+
 }

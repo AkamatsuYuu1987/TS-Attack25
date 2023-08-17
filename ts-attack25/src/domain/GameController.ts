@@ -38,30 +38,6 @@ class GameController {
         this.colorCounterBoard = colorCounterBoard;
     }
 
-    private findPanelsToFlip(board: Panel[][], startRow: number, startCol: number, dir: Direction): Panel[] {
-        let [row, col] = this.selectPanelExecutor.incrementPosition(startRow, startCol, dir);
-        const panelsToFlip: Panel[] = [];
-
-        while (this.selectPanelExecutor.isPositionValid(board, row, col)) {
-            const currentPanel = board[row][col];
-
-            if (currentPanel.getColor() == this.selectedColor) {
-                // Same color found, return the list
-                return panelsToFlip;
-            } else if (currentPanel.getColor() == PanelColor.GRAY) {
-                // Empty panel, stop looking in this direction
-                return [];
-            } else {
-                // Different color, add to list
-                panelsToFlip.push(currentPanel);
-            }
-
-            [row, col] = this.selectPanelExecutor.incrementPosition(row, col, dir);
-        }
-
-        return [];
-    }
-
     setGameBoard(gameBoard: GameBoard): void {
         this.gameBoard = gameBoard;
     }
@@ -113,7 +89,7 @@ class GameController {
         const startRow = panel.getRow();
         const startCol = panel.getColumn();
         for (const dir of this.directions) {
-            const panelsToFlip = this.findPanelsToFlip(gameBoard, startRow, startCol, dir);
+            const panelsToFlip = this.selectPanelExecutor.findPanelsToFlip(gameBoard, startRow, startCol, dir, this.selectedColor);
             this.selectPanelExecutor.flipPanels(panelsToFlip, this.selectedColor)
         }
     }
