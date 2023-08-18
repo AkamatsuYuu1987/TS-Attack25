@@ -42,7 +42,10 @@ export default class SelectPanelExecutor {
         return [row + dir.rowOffset, col + dir.columnOffset];
     }
 
-    public findPanelsToFlip(board: Panel[][], startRow: number, startCol: number, dir: Direction, selectedColor: PanelColor | null): Panel[] {
+    public findPanelsToFlip(board: Panel[][], selectedPanel: Panel, dir: Direction, selectedColor: PanelColor | null): Panel[] {
+        const startRow = selectedPanel.getRow();
+        const startCol = selectedPanel.getColumn();
+
         let [row, col] = this.incrementPosition(startRow, startCol, dir);
         const panelsToFlip: Panel[] = [];
 
