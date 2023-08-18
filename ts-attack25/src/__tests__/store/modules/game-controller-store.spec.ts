@@ -5,6 +5,7 @@ import GameBoard from '@/domain/GameBoard';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
 import { PanelColor } from '@/domain/panel';
 import ColorCounterType from '@/domain/ColorCounter';
+import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
 
 const defaultState = GameControllerStoreModule.state;
 
@@ -19,6 +20,8 @@ describe('GameControllerStore Vuex Module', () => {
     // colorCounterBoardをコンストラクタから生成
     const colorCounterBoard = new ColorCounterBoard(colorCounters);
 
+    const selectPanelExecutor = new SelectPanelExecutor();
+
     describe('mutations', () => {
         it('SET_GAME_CONTROLLER should set game controller', () => {
             const state = {
@@ -26,7 +29,7 @@ describe('GameControllerStore Vuex Module', () => {
                 gameController: null
             };
 
-            const newGameController = new GameController(new GameBoard(5, 5), colorCounterBoard);
+            const newGameController = new GameController(new GameBoard(5, 5), colorCounterBoard, selectPanelExecutor);
 
             GameControllerStoreModule.mutations!.SET_GAME_CONTROLLER(state, newGameController);
 
@@ -35,7 +38,7 @@ describe('GameControllerStore Vuex Module', () => {
 
         it('UPDATE_GAME_BOARD should update game board', () => {
             const gameBoard = new GameBoard(5, 5);
-            const gameController = new GameController(gameBoard, colorCounterBoard);
+            const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
             const state = {
                 ...(typeof defaultState === 'function' ? defaultState() : defaultState),
                 gameController
@@ -49,7 +52,7 @@ describe('GameControllerStore Vuex Module', () => {
 
         it('UPDATE_COLOR_COUNTER_BOARD should update color counter board', () => {
             const gameBoard = new GameBoard(5, 5);
-            const gameController = new GameController(gameBoard, colorCounterBoard);
+            const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
             const state = {
                 ...(typeof defaultState === 'function' ? defaultState() : defaultState),
                 gameController
@@ -71,7 +74,7 @@ describe('GameControllerStore Vuex Module', () => {
     describe('actions', () => {
         it('setGameController should commit SET_GAME_CONTROLLER', async () => {
             const commit = jest.fn();
-            const newGameController = new GameController(new GameBoard(5, 5), colorCounterBoard);
+            const newGameController = new GameController(new GameBoard(5, 5), colorCounterBoard, selectPanelExecutor);
 
             // 型アサーションを使用して、関数として呼び出す
             await (GameControllerStoreModule.actions!.setGameController as any)({ commit }, newGameController);
@@ -109,7 +112,7 @@ describe('GameControllerStore Vuex Module', () => {
     describe('getters', () => {
         it('gameBoardGetter should return game board', () => {
             const gameBoard = new GameBoard(5, 5);
-            const gameController = new GameController(gameBoard, colorCounterBoard);
+            const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
 
             const state = {
                 ...(typeof defaultState === 'function' ? defaultState() : defaultState),
@@ -123,7 +126,7 @@ describe('GameControllerStore Vuex Module', () => {
 
         it('colorCounterBoardGetter should return color counter board', () => {
             const gameBoard = new GameBoard(5, 5);
-            const gameController = new GameController(gameBoard, colorCounterBoard);
+            const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
 
             const state = {
                 ...(typeof defaultState === 'function' ? defaultState() : defaultState),

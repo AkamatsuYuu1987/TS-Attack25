@@ -4,6 +4,7 @@ import GameBoard from '@/domain/GameBoard';
 import ColorCounter from '@/domain/ColorCounter';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
 import { Panel, PanelColor } from '@/domain/panel';
+import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
 import _ from 'lodash';
 
 describe('GameController', () => {
@@ -17,7 +18,8 @@ describe('GameController', () => {
             new ColorCounter(PanelColor.WHITE, 'white', 0),
             new ColorCounter(PanelColor.BLUE, 'blue', 0),
         ]);
-        gameController = new GameController(gameBoard, colorCounterBoard);
+        const selectPanelExecutor = new SelectPanelExecutor();
+        gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
     });
 
     it('should initialize with a game board and color counter board', () => {

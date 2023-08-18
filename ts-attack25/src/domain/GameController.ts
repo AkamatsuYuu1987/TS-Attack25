@@ -2,6 +2,7 @@
 import GameBoard from './GameBoard';
 import ColorCounterBoard from './ColorCounterBoard';
 import { Panel, PanelColor } from './panel';
+import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
 
 type Direction = {
     rowOffset: number;
@@ -12,6 +13,7 @@ class GameController {
     gameBoard: GameBoard;
     colorCounterBoard: ColorCounterBoard;
     selectedColor: PanelColor | null = null;
+    selectPanelExecutor: SelectPanelExecutor;
 
     // 八方向を示すオフセット
     private directions: Direction[] = [
@@ -25,56 +27,15 @@ class GameController {
         { rowOffset: 1, columnOffset: 1 }  // 右下
     ];
 
-    constructor(gameBoard: GameBoard, colorCounterBoard: ColorCounterBoard) {
+    constructor(gameBoard: GameBoard, colorCounterBoard: ColorCounterBoard, selectPanelExecutor: SelectPanelExecutor) {
         this.gameBoard = gameBoard;
         this.colorCounterBoard = colorCounterBoard;
+        this.selectPanelExecutor = selectPanelExecutor;
     }
 
     // colorCounterBoardを設定するメソッド
     setColorCounterBoard(colorCounterBoard: ColorCounterBoard): void {
         this.colorCounterBoard = colorCounterBoard;
-    }
-
-    private isPositionValid(board: Panel[][], row: number, col: number): boolean {
-        return row >= 0 && row < board.length && col >= 0 && col < board[0].length && board[row][col] !== undefined;
-    }
-
-    private incrementPosition(row: number, col: number, dir: Direction): [number, number] {
-        return [row + dir.rowOffset, col + dir.columnOffset];
-    }
-
-    private findPanelsToFlip(board: Panel[][], startRow: number, startCol: number, dir: Direction): Panel[] {
-        let [row, col] = this.incrementPosition(startRow, startCol, dir);
-        const panelsToFlip: Panel[] = [];
-
-        while (this.isPositionValid(board, row, col)) {
-            const currentPanel = board[row][col];
-
-            if (currentPanel.getColor() == this.selectedColor) {
-                // Same color found, return the list
-                return panelsToFlip;
-            } else if (currentPanel.getColor() == PanelColor.GRAY) {
-                // Empty panel, stop looking in this direction
-                return [];
-            } else {
-                // Different color, add to list
-                panelsToFlip.push(currentPanel);
-            }
-
-            [row, col] = this.incrementPosition(row, col, dir);
-        }
-
-        return [];
-    }
-
-    private flipPanels(panels: Panel[]) {
-        if (this.selectedColor === null) {
-            throw new Error('No color has been selected');
-        }
-
-        for (const panel of panels) {
-            panel.setColor(this.selectedColor);
-        }
     }
 
     setGameBoard(gameBoard: GameBoard): void {
@@ -124,12 +85,11 @@ class GameController {
     }
 
     // 挟まれたパネルをフリップするメソッド
-    private findAndFlipPanels(gameBoard: Panel[][], panel: Panel) {
-        const startRow = panel.getRow();
-        const startCol = panel.getColumn();
+    private findAndFlipPanels(gameBoard: Panel[][], selectedPanel: Panel) {
+        // 八方向に対して挟まれたパネルを探し、フリップする
         for (const dir of this.directions) {
-            const panelsToFlip = this.findPanelsToFlip(gameBoard, startRow, startCol, dir);
-            this.flipPanels(panelsToFlip);
+            const panelsToFlip = this.selectPanelExecutor.findPanelsToFlip(gameBoard, selectedPanel, dir, this.selectedColor);
+            this.selectPanelExecutor.flipPanels(panelsToFlip, this.selectedColor)
         }
     }
 

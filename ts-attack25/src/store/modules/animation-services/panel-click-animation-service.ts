@@ -4,6 +4,7 @@ import { Panel } from '@/domain/panel';
 import GameController from '@/domain/GameController';
 import GameBoard from '@/domain/GameBoard';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
+import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
 
 
 interface State {
@@ -19,8 +20,10 @@ const actions: ActionTree<State, unknown> = {
         // game-controller-store.tsからcolorCounterBoardGetterを呼び出す
         const colorCounterBoard = context.rootGetters['ColorCounterBoardStoreModule/colorCounterBoardGetter'] as ColorCounterBoard
 
+        const selectPanelExecutor = new SelectPanelExecutor();
+
         // gameControllerをnewする
-        const gameController = new GameController(gameBoard, colorCounterBoard);
+        const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
 
         // Assuming AnimationService, GameController, etc. are available here
         for (const panel of panelsToChangeColor) {
