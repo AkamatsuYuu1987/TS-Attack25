@@ -57,9 +57,7 @@ class GameController {
             throw new Error('Panel not found');
         }
 
-        // Clone the gameBoard and apply the color change
-        const newGameBoard = new GameBoard(this.gameBoard.getRows(), this.gameBoard.getCols());
-        newGameBoard.setBoard(this.gameBoard.getBoard().map(row => row.map(panel => new Panel(panel.getColor(), panel.getNumber(), panel.getRow(), panel.getColumn()))));
+        const newGameBoard = this.gameBoard.clone();
 
         // Change the color of the selected panel
         const selectedPanel = newGameBoard.getBoard()[panel.getRow()][panel.getColumn()];
