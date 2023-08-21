@@ -51,16 +51,15 @@ class GameController {
             throw new Error('No color has been selected');
         }
 
+        const newGameBoard = this.gameBoard.clone();
+
         // Get the panel to be changed
-        const panel = this.gameBoard.getBoard().flat().find(p => p.getNumber() === panelNumber);
-        if (!panel) {
+        const selectedPanel = newGameBoard.getPanelByNumber(panelNumber);
+        if (!selectedPanel) {
             throw new Error('Panel not found');
         }
 
-        const newGameBoard = this.gameBoard.clone();
-
         // Change the color of the selected panel
-        const selectedPanel = newGameBoard.getBoard()[panel.getRow()][panel.getColumn()];
         selectedPanel.setColor(this.selectedColor);
 
         this.findAndFlipPanels(newGameBoard.getBoard(), selectedPanel);
