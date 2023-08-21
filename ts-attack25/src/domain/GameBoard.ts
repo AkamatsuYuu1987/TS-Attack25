@@ -59,4 +59,9 @@ export default class GameBoard {
     public getCols(): number {
         return this.cols;
     }
+
+    public getPanelByNumber(panelNumber: number): Panel | null {
+        const panel = this.board.flat().find(panel => panel.getNumber() === panelNumber);
+        return panel ? panel : null;
+    }
 }
