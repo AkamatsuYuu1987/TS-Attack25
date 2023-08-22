@@ -84,10 +84,12 @@ class GameController {
     // 挟まれたパネルをフリップするメソッド
     private findAndFlipPanels(gameBoard: Panel[][], selectedPanel: Panel) {
         // 八方向に対して挟まれたパネルを探し、フリップする
+        const panelsToFlip: Panel[] = [];
         for (const dir of this.directions) {
-            const panelsToFlip = this.selectPanelExecutor.findPanelsToFlip(gameBoard, selectedPanel, dir, this.selectedColor);
-            this.selectPanelExecutor.flipPanels(panelsToFlip, this.selectedColor)
+            const panelsInDirection = this.selectPanelExecutor.findPanelsToFlip(gameBoard, selectedPanel, dir, this.selectedColor);
+            panelsToFlip.push(...panelsInDirection);
         }
+        this.selectPanelExecutor.flipPanels(panelsToFlip, this.selectedColor);
     }
 
 }
