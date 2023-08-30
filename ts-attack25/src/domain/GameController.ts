@@ -62,7 +62,9 @@ class GameController {
         // Change the color of the selected panel
         selectedPanel.setColor(this.selectedColor);
 
-        this.findAndFlipPanels(newGameBoard.getBoard(), selectedPanel);
+        const panelsToFlip = this.findPanelsToFlipInAllDirections(newGameBoard.getBoard(), selectedPanel);
+        this.selectPanelExecutor.flipPanels(panelsToFlip, this.selectedColor);
+
 
         // Create a new ColorCounterBoard and update the counters based on the new game board
         this.colorCounterBoard.updateColorCounters(newGameBoard.getBoard().flat());
@@ -81,13 +83,14 @@ class GameController {
         return this.gameBoard;
     }
 
-    // 挟まれたパネルをフリップするメソッド
-    private findAndFlipPanels(gameBoard: Panel[][], selectedPanel: Panel) {
-        // 八方向に対して挟まれたパネルを探し、フリップする
+
+    private findPanelsToFlipInAllDirections(gameBoard: Panel[][], selectedPanel: Panel): Panel[] {
+        const panelsToFlip: Panel[] = [];
         for (const dir of this.directions) {
-            const panelsToFlip = this.selectPanelExecutor.findPanelsToFlip(gameBoard, selectedPanel, dir, this.selectedColor);
-            this.selectPanelExecutor.flipPanels(panelsToFlip, this.selectedColor)
+            const panelsInDirection = this.selectPanelExecutor.findPanelsToFlip(gameBoard, selectedPanel, dir, this.selectedColor);
+            panelsToFlip.push(...panelsInDirection);
         }
+        return panelsToFlip;
     }
 
 }
