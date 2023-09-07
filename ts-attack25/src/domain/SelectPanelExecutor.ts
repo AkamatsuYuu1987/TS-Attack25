@@ -69,4 +69,13 @@ export default class SelectPanelExecutor {
         return [];
     }
 
+    public findPanelsToFlipInAllDirections(gameBoard: Panel[][], selectedPanel: Panel, selectedColor: PanelColor): Panel[] {
+        const panelsToFlip: Panel[] = [];
+        for (const dir of this.directions) {
+            const panelsInDirection = this.findPanelsToFlip(gameBoard, selectedPanel, dir, selectedColor);
+            panelsToFlip.push(...panelsInDirection);
+        }
+        return panelsToFlip;
+    }
+
 }

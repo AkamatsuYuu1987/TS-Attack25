@@ -4,28 +4,11 @@ import ColorCounterBoard from './ColorCounterBoard';
 import { Panel, PanelColor } from './panel';
 import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
 
-type Direction = {
-    rowOffset: number;
-    columnOffset: number;
-}
-
 class GameController {
     gameBoard: GameBoard;
     colorCounterBoard: ColorCounterBoard;
     selectedColor: PanelColor | null = null;
     selectPanelExecutor: SelectPanelExecutor;
-
-    // 八方向を示すオフセット
-    private directions: Direction[] = [
-        { rowOffset: -1, columnOffset: -1 }, // 左上
-        { rowOffset: -1, columnOffset: 0 }, // 上
-        { rowOffset: -1, columnOffset: 1 }, // 右上
-        { rowOffset: 0, columnOffset: -1 }, // 左
-        { rowOffset: 0, columnOffset: 1 }, // 右
-        { rowOffset: 1, columnOffset: -1 }, // 左下
-        { rowOffset: 1, columnOffset: 0 }, // 下
-        { rowOffset: 1, columnOffset: 1 }  // 右下
-    ];
 
     constructor(gameBoard: GameBoard, colorCounterBoard: ColorCounterBoard, selectPanelExecutor: SelectPanelExecutor) {
         this.gameBoard = gameBoard;
@@ -62,7 +45,7 @@ class GameController {
         // Change the color of the selected panel
         selectedPanel.setColor(this.selectedColor);
 
-        const panelsToFlip = this.findPanelsToFlipInAllDirections(newGameBoard.getBoard(), selectedPanel);
+        const panelsToFlip = this.selectPanelExecutor.findPanelsToFlipInAllDirections(newGameBoard.getBoard(), selectedPanel, this.selectedColor);
         this.selectPanelExecutor.flipPanels(panelsToFlip, this.selectedColor);
 
 
@@ -81,16 +64,6 @@ class GameController {
     updateGameBoard(panel: Panel): GameBoard {
         this.gameBoard.replaceSinglePanel(panel);
         return this.gameBoard;
-    }
-
-
-    private findPanelsToFlipInAllDirections(gameBoard: Panel[][], selectedPanel: Panel): Panel[] {
-        const panelsToFlip: Panel[] = [];
-        for (const dir of this.directions) {
-            const panelsInDirection = this.selectPanelExecutor.findPanelsToFlip(gameBoard, selectedPanel, dir, this.selectedColor);
-            panelsToFlip.push(...panelsInDirection);
-        }
-        return panelsToFlip;
     }
 
 }
