@@ -34,15 +34,15 @@ export default class SelectPanelExecutor {
         }
     }
 
-    public isPositionValid(board: Panel[][], row: number, col: number): boolean {
+    private isPositionValid(board: Panel[][], row: number, col: number): boolean {
         return row >= 0 && row < board.length && col >= 0 && col < board[0].length && board[row][col] !== undefined;
     }
 
-    public incrementPosition(row: number, col: number, dir: Direction): [number, number] {
+    private incrementPosition(row: number, col: number, dir: Direction): [number, number] {
         return [row + dir.rowOffset, col + dir.columnOffset];
     }
 
-    public findPanelsToFlip(board: Panel[][], selectedPanel: Panel, dir: Direction, selectedColor: PanelColor | null): Panel[] {
+    private findPanelsToFlip(board: Panel[][], selectedPanel: Panel, dir: Direction, selectedColor: PanelColor | null): Panel[] {
         const startRow = selectedPanel.getRow();
         const startCol = selectedPanel.getColumn();
 
