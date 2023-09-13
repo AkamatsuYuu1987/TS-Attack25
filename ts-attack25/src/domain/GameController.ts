@@ -3,6 +3,8 @@ import GameBoard from './GameBoard';
 import ColorCounterBoard from './ColorCounterBoard';
 import { Panel, PanelColor } from './panel';
 import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
+import { createPanelsToFlip } from "@/factories/panelsToFlipFactory";
+
 
 class GameController {
     gameBoard: GameBoard;
@@ -45,8 +47,9 @@ class GameController {
         // Change the color of the selected panel
         selectedPanel.setColor(this.selectedColor);
 
-        const panelsToFlip = this.selectPanelExecutor.findPanelsToFlipInAllDirections(newGameBoard.getBoard(), selectedPanel, this.selectedColor);
-        this.selectPanelExecutor.flipPanels(panelsToFlip, this.selectedColor);
+        //const panelsToFlip = this.selectPanelExecutor.findPanelsToFlipInAllDirections(newGameBoard.getBoard(), selectedPanel, this.selectedColor);
+        const panelsToFlip = createPanelsToFlip(newGameBoard.getBoard(), selectedPanel, this.selectedColor);
+        this.selectPanelExecutor.flipPanels(panelsToFlip.getPanels(), this.selectedColor);
 
 
         // Create a new ColorCounterBoard and update the counters based on the new game board
