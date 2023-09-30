@@ -47,7 +47,6 @@ class GameController {
         // Change the color of the selected panel
         selectedPanel.setColor(this.selectedColor);
 
-        //const panelsToFlip = this.selectPanelExecutor.findPanelsToFlipInAllDirections(newGameBoard.getBoard(), selectedPanel, this.selectedColor);
         const panelsToFlip = createPanelsToFlip(newGameBoard.getBoard(), selectedPanel, this.selectedColor);
         this.selectPanelExecutor.flipPanels(panelsToFlip.getPanels(), this.selectedColor);
 
