@@ -1,3 +1,4 @@
+/** containerSetup.ts */
 import "reflect-metadata";
 import { Container } from "inversify";
 import { TYPES } from "./types";

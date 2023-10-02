@@ -4,6 +4,7 @@ import ColorCounterBoard from './ColorCounterBoard';
 import { Panel, PanelColor } from './panel';
 import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
 import { createPanelsToFlip } from "@/factories/panelsToFlipFactory";
+import { PanelsToFlip } from './PanelsToFlip';
 
 
 class GameController {
@@ -56,6 +57,28 @@ class GameController {
         const newColorCounterBoard = this.colorCounterBoard;
 
         return { newGameBoard, newColorCounterBoard };
+    }
+
+    public applyColorChange(panelNumber: number): PanelsToFlip {
+        // 最初のクリックしたパネルの扱いを決める
+
+        if (this.selectedColor === null) {
+            throw new Error('No color has been selected');
+        }
+
+        const newGameBoard = this.gameBoard.clone();
+
+        // Get the panel to be changed
+        const selectedPanel = newGameBoard.getPanelByNumber(panelNumber);
+        if (!selectedPanel) {
+            throw new Error('Panel not found');
+        }
+
+        // Change the color of the selected panel
+        selectedPanel.setColor(this.selectedColor);
+
+        const panelsToFlip = createPanelsToFlip(newGameBoard.getBoard(), selectedPanel, this.selectedColor);
+        return panelsToFlip;
     }
 
     updateColorCounterboard(): ColorCounterBoard {
