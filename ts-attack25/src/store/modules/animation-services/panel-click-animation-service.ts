@@ -11,6 +11,26 @@ interface State {
 }
 
 const actions: ActionTree<State, unknown> = {
+    async handlePanelClick(context, panelNumber: number) {
+        // game-board-store.tsからgameBoardGetterを呼び出す
+        // TypeScriptの型アサーションを使用してgameBoardの型を明示的に指定
+        const gameBoard = context.rootGetters['GameBoardStoreModule/gameBoardGetter'] as GameBoard;
+
+        // game-controller-store.tsからcolorCounterBoardGetterを呼び出す
+        const colorCounterBoard = context.rootGetters['ColorCounterBoardStoreModule/colorCounterBoardGetter'] as ColorCounterBoard
+
+        const selectPanelExecutor = new SelectPanelExecutor();
+
+        // gameControllerをnewする
+        const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
+
+        // gameControllerのapplyColorChangeを実行して、返り値のpanelsToChangeColorを取得
+        const panelsToChangeColor = await gameController.applyColorChange(panelNumber);
+
+        // panelsToChangeColorを引数に、animateOnPanelClickを実行
+        await context.dispatch('animateOnPanelClick', panelsToChangeColor);
+
+    },
     async animateOnPanelClick(context, panelsToChangeColor: Panel[]) {
 
         // game-board-store.tsからgameBoardGetterを呼び出す
