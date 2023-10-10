@@ -1,9 +1,0 @@
-{
-	"remoteAuthority": "wsl+Ubuntu-22.04",
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
-}
