@@ -1,7 +1,8 @@
 import { Panel, PanelColor } from './panel';
+import { injectable } from "inversify";
 
 
-
+@injectable()
 export default class SelectPanelExecutor {
 
     constructor() {
