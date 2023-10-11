@@ -3,11 +3,10 @@ import { mount } from '@vue/test-utils';
 import GameBoard from '@/components/GameBoard.vue';
 import GameSquare from '@/components/GameSquare.vue';
 import { Panel, PanelColor } from '@/domain/panel';
-import GameController from '@/domain/GameController';
 import GameBoardDomain from '@/domain/GameBoard';
 import ColorCounter from '@/domain/ColorCounter';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
-import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
+import { createGameController } from '@/factories/gameControllerFactory'
 
 describe('GameBoard.vue', () => {
     const createColorCounterBoard = () => {
@@ -20,11 +19,9 @@ describe('GameBoard.vue', () => {
         return new ColorCounterBoard(colorCounters);
     }
 
-    const selectPanelExecutor = new SelectPanelExecutor();
-
     it('renders the game board with default 5x5 grid when no rows and cols are provided', () => {
         const defaultGameBoardDomain = new GameBoardDomain();
-        const defaultGameController = new GameController(defaultGameBoardDomain, createColorCounterBoard(), selectPanelExecutor);
+        const defaultGameController = createGameController(defaultGameBoardDomain, createColorCounterBoard())
         const wrapper = mount(GameBoard, {
             props: {
                 gameController: defaultGameController
@@ -37,8 +34,7 @@ describe('GameBoard.vue', () => {
         const rows = 3;
         const cols = 4;
         const gameBoardDomain = new GameBoardDomain(rows, cols);
-        const gameController = new GameController(gameBoardDomain, createColorCounterBoard(), selectPanelExecutor);
-
+        const gameController = createGameController(gameBoardDomain, createColorCounterBoard());
         const wrapper = mount(GameBoard, {
             props: {
                 gameController
@@ -51,7 +47,7 @@ describe('GameBoard.vue', () => {
         const rows = 3;
         const cols = 4;
         const gameBoardDomain = new GameBoardDomain(rows, cols);
-        const gameController = new GameController(gameBoardDomain, createColorCounterBoard(), selectPanelExecutor);
+        const gameController = createGameController(gameBoardDomain, createColorCounterBoard());
 
         const wrapper = mount(GameBoard, {
             props: {
@@ -70,7 +66,7 @@ describe('GameBoard.vue', () => {
         const rows = 3;
         const cols = 4;
         const gameBoardDomain = new GameBoardDomain(rows, cols);
-        const gameController = new GameController(gameBoardDomain, createColorCounterBoard(), selectPanelExecutor);
+        const gameController = createGameController(gameBoardDomain, createColorCounterBoard());
 
         const wrapper = mount(GameBoard, {
             props: {
@@ -105,7 +101,7 @@ describe('GameBoard.vue', () => {
         const rows = 3;
         const cols = 4;
         const gameBoardDomain = new GameBoardDomain(rows, cols);
-        const gameController = new GameController(gameBoardDomain, createColorCounterBoard(), selectPanelExecutor);
+        const gameController = createGameController(gameBoardDomain, createColorCounterBoard());
 
         const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => { });
 

@@ -1,6 +1,6 @@
 import { Panel, PanelColor } from './panel';
 import { injectable } from "inversify";
-
+import 'reflect-metadata';
 
 @injectable()
 export default class SelectPanelExecutor {
