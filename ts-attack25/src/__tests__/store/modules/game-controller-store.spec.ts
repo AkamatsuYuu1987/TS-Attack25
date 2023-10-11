@@ -1,11 +1,10 @@
 // __tests__/store/modules/game-controller-store.spec.ts
 import { GameControllerStoreModule } from '@/store/modules/game-controller-store';
-import GameController from '@/domain/GameController';
 import GameBoard from '@/domain/GameBoard';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
 import { PanelColor } from '@/domain/panel';
 import ColorCounterType from '@/domain/ColorCounter';
-import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
+import { createGameController } from '@/factories/gameControllerFactory'
 
 const defaultState = GameControllerStoreModule.state;
 
@@ -20,8 +19,6 @@ describe('GameControllerStore Vuex Module', () => {
     // colorCounterBoardをコンストラクタから生成
     const colorCounterBoard = new ColorCounterBoard(colorCounters);
 
-    const selectPanelExecutor = new SelectPanelExecutor();
-
     describe('mutations', () => {
         it('SET_GAME_CONTROLLER should set game controller', () => {
             const state = {
@@ -29,7 +26,7 @@ describe('GameControllerStore Vuex Module', () => {
                 gameController: null
             };
 
-            const newGameController = new GameController(new GameBoard(5, 5), colorCounterBoard, selectPanelExecutor);
+            const newGameController = createGameController(new GameBoard(5, 5), colorCounterBoard,);
 
             GameControllerStoreModule.mutations!.SET_GAME_CONTROLLER(state, newGameController);
 
@@ -38,7 +35,7 @@ describe('GameControllerStore Vuex Module', () => {
 
         it('UPDATE_GAME_BOARD should update game board', () => {
             const gameBoard = new GameBoard(5, 5);
-            const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
+            const gameController = createGameController(gameBoard, colorCounterBoard);
             const state = {
                 ...(typeof defaultState === 'function' ? defaultState() : defaultState),
                 gameController
@@ -52,7 +49,7 @@ describe('GameControllerStore Vuex Module', () => {
 
         it('UPDATE_COLOR_COUNTER_BOARD should update color counter board', () => {
             const gameBoard = new GameBoard(5, 5);
-            const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
+            const gameController = createGameController(gameBoard, colorCounterBoard);
             const state = {
                 ...(typeof defaultState === 'function' ? defaultState() : defaultState),
                 gameController
@@ -74,7 +71,7 @@ describe('GameControllerStore Vuex Module', () => {
     describe('actions', () => {
         it('setGameController should commit SET_GAME_CONTROLLER', async () => {
             const commit = jest.fn();
-            const newGameController = new GameController(new GameBoard(5, 5), colorCounterBoard, selectPanelExecutor);
+            const newGameController = createGameController(new GameBoard(5, 5), colorCounterBoard);
 
             // 型アサーションを使用して、関数として呼び出す
             await (GameControllerStoreModule.actions!.setGameController as any)({ commit }, newGameController);
@@ -112,7 +109,7 @@ describe('GameControllerStore Vuex Module', () => {
     describe('getters', () => {
         it('gameBoardGetter should return game board', () => {
             const gameBoard = new GameBoard(5, 5);
-            const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
+            const gameController = createGameController(gameBoard, colorCounterBoard);
 
             const state = {
                 ...(typeof defaultState === 'function' ? defaultState() : defaultState),
@@ -126,7 +123,7 @@ describe('GameControllerStore Vuex Module', () => {
 
         it('colorCounterBoardGetter should return color counter board', () => {
             const gameBoard = new GameBoard(5, 5);
-            const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
+            const gameController = createGameController(gameBoard, colorCounterBoard);
 
             const state = {
                 ...(typeof defaultState === 'function' ? defaultState() : defaultState),

@@ -4,9 +4,9 @@ import GameBoard from '@/domain/GameBoard';
 import ColorCounter from '@/domain/ColorCounter';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
 import { Panel, PanelColor } from '@/domain/panel';
-import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
 import _ from 'lodash';
 import { PanelsToFlip } from '@/domain/PanelsToFlip';
+import { createGameController } from '@/factories/gameControllerFactory'
 
 describe('GameController', () => {
     let gameController: GameController;
@@ -19,8 +19,7 @@ describe('GameController', () => {
             new ColorCounter(PanelColor.WHITE, 'white', 0),
             new ColorCounter(PanelColor.BLUE, 'blue', 0),
         ]);
-        const selectPanelExecutor = new SelectPanelExecutor();
-        gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
+        gameController = createGameController(gameBoard, colorCounterBoard);
     });
 
     it('should initialize with a game board and color counter board', () => {
