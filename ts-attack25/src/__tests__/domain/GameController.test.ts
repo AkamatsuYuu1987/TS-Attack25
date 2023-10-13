@@ -5,6 +5,8 @@ import ColorCounter from '@/domain/ColorCounter';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
 import { Panel, PanelColor } from '@/domain/panel';
 import _ from 'lodash';
+import { PanelsToFlip } from '@/domain/PanelsToFlip';
+import { createGameController } from '@/factories/gameControllerFactory'
 
 describe('GameController', () => {
     let gameController: GameController;
@@ -17,7 +19,7 @@ describe('GameController', () => {
             new ColorCounter(PanelColor.WHITE, 'white', 0),
             new ColorCounter(PanelColor.BLUE, 'blue', 0),
         ]);
-        gameController = new GameController(gameBoard, colorCounterBoard);
+        gameController = createGameController(gameBoard, colorCounterBoard);
     });
 
     it('should initialize with a game board and color counter board', () => {
@@ -165,6 +167,34 @@ describe('GameController', () => {
         gameController.updateGameBoard(newPanel);
         const updatedPanel = gameController.gameBoard.getBoard()[newPanel.getRow()][newPanel.getColumn()];
         expect(updatedPanel.getColor()).toBe(PanelColor.RED);
+    });
+
+    // Newly added test cases
+    test('should throw error if no color has been selected', () => {
+        expect(() => {
+            gameController.applyColorChange(1);
+        }).toThrowError('No color has been selected');
+    });
+
+    test('should throw error if panel not found', () => {
+        gameController.selectColor(PanelColor.RED);
+
+        // Depending on your implementation, set up a non-existing panel number
+        expect(() => {
+            gameController.applyColorChange(999);
+        }).toThrowError('Panel not found');
+    });
+
+    test('should change the color of the panel and return panels to flip', () => {
+        gameController.selectColor(PanelColor.RED);
+
+        // An existing panel number
+        const panelNumber = 5;
+
+        const panelsToFlip = gameController.applyColorChange(panelNumber);
+
+        expect(panelsToFlip).toBeInstanceOf(PanelsToFlip);
+        // Add more assertions to check if the panel color is changed correctly and panelsToFlip contains the expected values
     });
 
 });

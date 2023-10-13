@@ -18,11 +18,11 @@
 import { defineComponent, ref } from 'vue';
 import GameBoardComponent from './components/GameBoard.vue';
 import ColorCounterComponent from './components/ColorCounter.vue';
-import GameController from './domain/GameController';
 import GameBoard from './domain/GameBoard';
 import { PanelColor, Panel } from './domain/panel';
 import ColorCounter from './domain/ColorCounter';
 import ColorCounterBoard from './domain/ColorCounterBoard';
+import { createGameController } from './factories/gameControllerFactory'
 
 export default defineComponent({
   components: {
@@ -48,7 +48,7 @@ export default defineComponent({
     ].map(color => new ColorCounter(color, colorMap[color]!, 0));
 
     const colorCounterBoard = new ColorCounterBoard(colorCounters);
-    const gameController = ref(new GameController(gameBoard, colorCounterBoard));
+    const gameController = ref(createGameController(gameBoard, colorCounterBoard));
 
     const selectColor = (color: string) => {
       console.log(`Color selected: ${color}`);

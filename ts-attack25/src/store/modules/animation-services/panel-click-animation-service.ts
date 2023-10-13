@@ -1,9 +1,9 @@
 // panel-click-animation-service.ts
 import { Module, ActionTree } from 'vuex';
 import { Panel } from '@/domain/panel';
-import GameController from '@/domain/GameController';
 import GameBoard from '@/domain/GameBoard';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
+import { createGameController } from '@/factories/gameControllerFactory'
 
 
 interface State {
@@ -20,7 +20,7 @@ const actions: ActionTree<State, unknown> = {
         const colorCounterBoard = context.rootGetters['ColorCounterBoardStoreModule/colorCounterBoardGetter'] as ColorCounterBoard
 
         // gameControllerをnewする
-        const gameController = new GameController(gameBoard, colorCounterBoard);
+        const gameController = createGameController(gameBoard, colorCounterBoard);
 
         // Assuming AnimationService, GameController, etc. are available here
         for (const panel of panelsToChangeColor) {

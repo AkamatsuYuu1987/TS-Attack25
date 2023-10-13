@@ -19,6 +19,13 @@ export default class GameBoard {
         );
     }
 
+    clone(): GameBoard {
+        const newBoard = this.board.map(row => row.map(panel => new Panel(panel.getColor(), panel.getNumber(), panel.getRow(), panel.getColumn())));
+        const clonedGameBoard = new GameBoard(this.rows, this.cols);
+        clonedGameBoard.board = newBoard;
+        return clonedGameBoard;
+    }
+
     public getBoard(): Panel[][] {
         return this.board;
     }
@@ -51,5 +58,10 @@ export default class GameBoard {
 
     public getCols(): number {
         return this.cols;
+    }
+
+    public getPanelByNumber(panelNumber: number): Panel | null {
+        const panel = this.board.flat().find(panel => panel.getNumber() === panelNumber);
+        return panel ? panel : null;
     }
 }
