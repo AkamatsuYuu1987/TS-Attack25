@@ -1,9 +1,0 @@
-{
-	"remoteAuthority": "wsl+ubuntu",
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
-}

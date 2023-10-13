@@ -1,19 +1,25 @@
 // GameController.ts
+import { inject, injectable } from "inversify";
 import GameBoard from './GameBoard';
 import ColorCounterBoard from './ColorCounterBoard';
 import { Panel, PanelColor } from './panel';
 import SelectPanelExecutor from '@/domain/SelectPanelExecutor';
 import { createPanelsToFlip } from "@/factories/panelsToFlipFactory";
 import { PanelsToFlip } from './PanelsToFlip';
+import { GameControllerTypes } from "@/types/GameControllerTypes";
 
-
+@injectable()
 class GameController {
     gameBoard: GameBoard;
     colorCounterBoard: ColorCounterBoard;
     selectedColor: PanelColor | null = null;
     selectPanelExecutor: SelectPanelExecutor;
 
-    constructor(gameBoard: GameBoard, colorCounterBoard: ColorCounterBoard, selectPanelExecutor: SelectPanelExecutor) {
+    constructor(
+        @inject(GameControllerTypes.GameBoard) gameBoard: GameBoard,
+        @inject(GameControllerTypes.ColorCounterBoard) colorCounterBoard: ColorCounterBoard,
+        @inject(GameControllerTypes.SelectPanelExecutor) selectPanelExecutor: SelectPanelExecutor
+    ) {
         this.gameBoard = gameBoard;
         this.colorCounterBoard = colorCounterBoard;
         this.selectPanelExecutor = selectPanelExecutor;

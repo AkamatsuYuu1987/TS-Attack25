@@ -1,0 +1,12 @@
+{
+	"remoteAuthority": "wsl+Ubuntu-22.04",
+	"folders": [
+		{
+			"name": "TS-Attack25",
+			// "uri": "vscode-remote://wsl+ubuntu-22.04/absolute/path/to/this/directory"
+		}
+	],
+	"settings": {
+		"terminal.integrated.cwd": "${workspaceFolder}"
+	}
+}
