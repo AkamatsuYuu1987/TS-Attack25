@@ -4,12 +4,23 @@ import { Panel } from '@/domain/panel';
 import GameBoard from '@/domain/GameBoard';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
 import { createGameController } from '@/factories/gameControllerFactory'
+import GameController from '@/domain/GameController';
 
 
 interface State {
 }
 
 const actions: ActionTree<State, unknown> = {
+    async handlePanelClick(context, payload: { panelNumber: number, gameController: GameController }) {
+        const { panelNumber, gameController } = payload;
+
+        // gameControllerのapplyColorChangeを実行して、返り値のpanelsToChangeColorを取得
+        const panelsToChangeColor = await gameController.applyColorChange(panelNumber);
+
+        // panelsToChangeColorを引数に、animateOnPanelClickを実行
+        await context.dispatch('animateOnPanelClick', panelsToChangeColor.getPanels());
+
+    },
     async animateOnPanelClick(context, panelsToChangeColor: Panel[]) {
 
         // game-board-store.tsからgameBoardGetterを呼び出す
