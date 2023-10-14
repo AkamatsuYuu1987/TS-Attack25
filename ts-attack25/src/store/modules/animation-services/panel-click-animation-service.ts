@@ -18,10 +18,11 @@ const actions: ActionTree<State, unknown> = {
         // game-controller-store.tsからcolorCounterBoardGetterを呼び出す
         const colorCounterBoard = context.rootGetters['ColorCounterBoardStoreModule/colorCounterBoardGetter'] as ColorCounterBoard
 
-        const selectPanelExecutor = new SelectPanelExecutor();
+        // const selectPanelExecutor = new SelectPanelExecutor();
 
         // gameControllerをnewする
-        const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
+        // const gameController = new GameController(gameBoard, colorCounterBoard, selectPanelExecutor);
+        const gameController = createGameController(gameBoard, colorCounterBoard);
 
         // gameControllerのapplyColorChangeを実行して、返り値のpanelsToChangeColorを取得
         const panelsToChangeColor = await gameController.applyColorChange(panelNumber);
