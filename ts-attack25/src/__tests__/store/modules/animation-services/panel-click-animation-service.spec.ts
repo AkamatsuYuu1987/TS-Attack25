@@ -5,8 +5,6 @@ import ColorCounter from '@/domain/ColorCounter';
 import { MockGameBoard, MockColorCounterBoard } from '@/mocks/mocks';
 import { createGameController } from '@/factories/gameControllerFactory';
 
-// const defaultState = PanelClickAnimationServiceModule.state;
-
 describe('PanelClickAnimationServiceModule Vuex Module', () => {
     describe('actions', () => {
 
