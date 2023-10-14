@@ -3,6 +3,7 @@ import { PanelClickAnimationServiceModule } from '@/store/modules/animation-serv
 import { Panel, PanelColor } from '@/domain/panel';
 import ColorCounter from '@/domain/ColorCounter';
 import { MockGameBoard, MockColorCounterBoard } from '@/mocks/mocks';
+import { createGameController } from '@/factories/gameControllerFactory';
 
 // const defaultState = PanelClickAnimationServiceModule.state;
 
@@ -35,14 +36,28 @@ describe('PanelClickAnimationServiceModule Vuex Module', () => {
                 'ColorCounterBoardStoreModule/colorCounterBoardGetter': mockColorCounterBoard,
             };
 
-            const panelNumber = 5; // 任意のパネル番号を選択
+            // createGameControllerでconst gameControllerを初期化
+            const gameController = createGameController(mockGameBoard, mockColorCounterBoard);
 
-            // handlePanelClickアクションを呼び出す
-            // await actions.handlePanelClick({ dispatch: mockStore.dispatch, getters: mockStore.getters, rootGetters: mockStore.getters }, panelNumber);
-            await (PanelClickAnimationServiceModule.actions!.handlePanelClick as any)({ dispatch, rootGetters }, panelNumber);
+            // gameControllerでselectedColorをセットする
+            gameController.selectColor(PanelColor.BLUE);
+
+            const panelNumber = 9; // 任意のパネル番号を選択
+
+            // PanelClickAnimationServiceModule.actions!.handlePanelClick as anyを呼び出す
+            // 引数はpanelNumberとgameController
+            await (PanelClickAnimationServiceModule.actions!.handlePanelClick as any)({ dispatch, rootGetters }, { panelNumber, gameController });
 
             // アクションが他のゲッターやアクションを正しく呼び出したかを検証
-            expect(dispatch).toHaveBeenCalledWith('animateOnPanelClick', expect.any(Array));  // ここで animateOnPanelClick アクションが呼ばれていることと、パラメータが配列であることを確認しています
+            //expect(dispatch).toHaveBeenCalledWith('animateOnPanelClick', expect.any(Array));  // ここで animateOnPanelClick アクションが呼ばれていることと、パラメータが配列であることを確認しています
+
+            // async animateOnPanelClick(context, panelsToChangeColor: Panel[]) が正しく呼び出されたことと、
+            // 引数のTypeがPanel[]であることを検証
+            expect(dispatch).toHaveBeenCalledWith(
+                'animateOnPanelClick',
+                expect.arrayContaining([expect.any(Panel)])  // ここで引数が Panel のインスタンスを含む配列であることを検証
+            );
+
         });
 
         it('animateOnPanelClick should animate panels and update game', async () => {
