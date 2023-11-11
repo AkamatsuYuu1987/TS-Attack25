@@ -1,5 +1,5 @@
 // panel-click-animation-service.spec.ts
-import { PanelClickAnimationServiceModule } from '@/store/modules/animation-services/panel-click-animation-service';
+import { PanelClickAnimationServiceModule } from '@/store/modules/animation-services/panel-click-animation-service-store';
 import { Panel, PanelColor } from '@/domain/panel';
 import ColorCounter from '@/domain/ColorCounter';
 import { MockGameBoard, MockColorCounterBoard } from '@/mocks/mocks';
