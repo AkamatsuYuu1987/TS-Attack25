@@ -1,11 +1,29 @@
 // __tests__/store/modules/game-board-store.spec.ts
 import { GameBoardStoreModule } from '@/store/modules/game-board-store';
 import GameBoard from '@/domain/GameBoard';
-// import { Panel, PanelColor } from '@/domain/panel';
+import { createStore, Store } from 'vuex';
+import InitializationService from '@/domain/services/InitializationService';
 
 const defaultState = GameBoardStoreModule.state;
 
 describe('GameBoardStore Vuex Module', () => {
+
+    let store: Store<any>;
+
+    beforeEach(() => {
+        store = createStore({
+            modules: {
+                GameBoardStoreModule: GameBoardStoreModule
+            }
+        });
+    });
+
+    it('should initialize with the correct gameBoard from InitializationService', () => {
+        const service = new InitializationService();
+        const expectedData = service.initialize().gameBoard;
+        expect(store.state.GameBoardStoreModule.gameBoard).toEqual(expectedData);
+    });
+
     describe('mutations', () => {
         it('SET_GAME_BOARD should set game board', () => {
             const state = {
