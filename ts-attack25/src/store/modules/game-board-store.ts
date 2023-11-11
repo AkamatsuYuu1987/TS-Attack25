@@ -1,13 +1,16 @@
 // game-board-store.ts
 import { Module, Commit, ActionTree } from 'vuex';
 import GameBoard from '@/domain/GameBoard';
+import InitializationService from '@/domain/services/InitializationService';
+
+const initializationService = new InitializationService();
 
 interface State {
     gameBoard: GameBoard | null;
 }
 
 const state = (): State => ({
-    gameBoard: null, // 仮の初期化です。適切な初期化方法に変更してください。
+    gameBoard: initializationService.initialize().gameBoard,
 })
 
 const getters = {
