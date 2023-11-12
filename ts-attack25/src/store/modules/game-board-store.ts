@@ -6,7 +6,7 @@ import InitializationService from '@/domain/services/InitializationService';
 const initializationService = new InitializationService();
 
 interface State {
-    gameBoard: GameBoard | null;
+    gameBoard: GameBoard;
 }
 
 const state = (): State => ({
