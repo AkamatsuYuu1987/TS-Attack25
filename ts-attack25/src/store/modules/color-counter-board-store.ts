@@ -1,13 +1,16 @@
 // color-counter-board-store.ts
 import { Module, Commit, ActionTree } from 'vuex';
+import InitializationService from '@/domain/services/InitializationService';
+
+const initializationService = new InitializationService();
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
 
 interface State {
-    colorCounterBoard: ColorCounterBoard | null;
+    colorCounterBoard: ColorCounterBoard;
 }
 
 const state = (): State => ({
-    colorCounterBoard: null,
+    colorCounterBoard: initializationService.initialize().colorCounterBoard,
 })
 
 const getters = {
