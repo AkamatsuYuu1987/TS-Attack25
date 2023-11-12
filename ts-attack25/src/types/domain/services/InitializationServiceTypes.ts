@@ -3,7 +3,7 @@ import ColorCounterBoard from '@/domain/ColorCounterBoard';
 import GameController from '@/domain/GameController';
 
 export type InitializationResult = {
-    gameBoard: GameBoard | null;
+    gameBoard: GameBoard;
     colorCounterBoard: ColorCounterBoard | null;
     gameController: GameController | null;
 };
