@@ -3,10 +3,31 @@ import { ColorCounterBoardStoreModule } from '@/store/modules/color-counter-boar
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
 import ColorCounter from '@/domain/ColorCounter';
 import { PanelColor } from '@/domain/panel'
+import InitializationService from '@/domain/services/InitializationService';
+import { createStore, Store } from 'vuex';
 
 const defaultState = ColorCounterBoardStoreModule.state;
 
 describe('ColorCounterBoardStore Vuex Module', () => {
+
+    let store: Store<any>;
+
+    beforeEach(() => {
+        store = createStore({
+            modules: {
+                ColorCounterBoardStoreModule: ColorCounterBoardStoreModule
+            }
+        });
+    });
+
+    describe('state', () => {
+        it('should initialize with the correct colorCounterBoard from InitializationService', () => {
+            const service = new InitializationService();
+            const expectedData = service.initialize().colorCounterBoard;
+            expect(store.state.ColorCounterBoardStoreModule.colorCounterBoard).toEqual(expectedData);
+        });
+    });
+
     describe('mutations', () => {
         it('SET_COLOR_COUNTER_BOARD should set color counter board', () => {
             const state = {
@@ -14,6 +35,7 @@ describe('ColorCounterBoardStore Vuex Module', () => {
                 colorCounterBoard: new ColorCounterBoard([])
             };
 
+            // TODO: テストデータを初期値と変える
             const newColorCounterBoard = new ColorCounterBoard([
                 new ColorCounter(PanelColor.RED, 'red', 1),
                 new ColorCounter(PanelColor.GREEN, 'green', 2),
