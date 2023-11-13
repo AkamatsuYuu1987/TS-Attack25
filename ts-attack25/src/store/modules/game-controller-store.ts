@@ -3,13 +3,16 @@ import { Module, Commit, ActionTree } from 'vuex';
 import GameController from '@/domain/GameController';
 import GameBoard from '@/domain/GameBoard';
 import ColorCounterBoard from '@/domain/ColorCounterBoard';
+import InitializationService from '@/domain/services/InitializationService';
+
+const initializationService = new InitializationService();
 
 interface State {
     gameController: GameController | null;
 }
 
 const state = (): State => ({
-    gameController: null,
+    gameController: initializationService.initialize().gameController
 })
 
 const getters = {
