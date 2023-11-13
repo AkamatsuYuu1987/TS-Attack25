@@ -6,6 +6,7 @@ import ColorCounterType from '@/domain/ColorCounter';
 import { PanelColor } from '@/domain/panel';
 import { createGameController } from '@/factories/gameControllerFactory';
 import { createStore, Store } from 'vuex';
+import InitializationService from '@/domain/services/InitializationService';
 
 describe('GameControllerStore Vuex Module', () => {
     let store: Store<any>;
@@ -23,11 +24,19 @@ describe('GameControllerStore Vuex Module', () => {
             new ColorCounterType(PanelColor.BLUE, 'blue', 3),
             new ColorCounterType(PanelColor.WHITE, 'white', 2),
         ]));
-        store.commit('GameControllerStoreModule/SET_GAME_CONTROLLER', newGameController);
+    });
+
+    describe('initial state', () => {
+        it('should initialize with the correct gameController from InitializationService', () => {
+            const service = new InitializationService();
+            const expectedData = service.initialize().gameController;
+            expect(store.state.GameControllerStoreModule.gameController).toEqual(expectedData);
+        });
     });
 
     describe('mutations', () => {
         it('SET_GAME_CONTROLLER should set game controller', () => {
+            store.commit('GameControllerStoreModule/SET_GAME_CONTROLLER', newGameController);
             const state = store.state.GameControllerStoreModule;
             expect(state.gameController).toEqual(newGameController);
         });
@@ -87,10 +96,12 @@ describe('GameControllerStore Vuex Module', () => {
         });
 
         it('colorCounterBoardGetter should return color counter board', () => {
+            const service = new InitializationService();
+            const expectedData = service.initialize().gameController?.colorCounterBoard;
             const state = store.state.GameControllerStoreModule;
             const getter = GameControllerStoreModule.getters!.colorCounterBoardGetter as any;
             const result = getter(state);
-            expect(result).toEqual(newGameController.colorCounterBoard);
+            expect(result).toEqual(expectedData);
         });
     });
 });
