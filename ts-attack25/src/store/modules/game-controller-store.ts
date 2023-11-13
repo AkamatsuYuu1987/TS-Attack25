@@ -8,7 +8,7 @@ import InitializationService from '@/domain/services/InitializationService';
 const initializationService = new InitializationService();
 
 interface State {
-    gameController: GameController | null;
+    gameController: GameController;
 }
 
 const state = (): State => ({
@@ -16,8 +16,8 @@ const state = (): State => ({
 })
 
 const getters = {
-    gameBoardGetter: (state: State) => state.gameController?.gameBoard,
-    colorCounterBoardGetter: (state: State) => state.gameController?.colorCounterBoard,
+    gameBoardGetter: (state: State) => state.gameController.gameBoard,
+    colorCounterBoardGetter: (state: State) => state.gameController.colorCounterBoard,
 }
 
 const mutations = {

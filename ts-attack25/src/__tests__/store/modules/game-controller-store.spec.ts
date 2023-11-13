@@ -45,7 +45,7 @@ describe('GameControllerStore Vuex Module', () => {
             const newGameBoard = new GameBoard(3, 3);
             store.commit('GameControllerStoreModule/UPDATE_GAME_BOARD', newGameBoard);
             const state = store.state.GameControllerStoreModule;
-            expect(state.gameController?.gameBoard).toEqual(newGameBoard);
+            expect(state.gameController.gameBoard).toEqual(newGameBoard);
         });
 
         it('UPDATE_COLOR_COUNTER_BOARD should update color counter board', () => {
@@ -57,7 +57,7 @@ describe('GameControllerStore Vuex Module', () => {
             ]);
             store.commit('GameControllerStoreModule/UPDATE_COLOR_COUNTER_BOARD', newColorCounterBoard);
             const state = store.state.GameControllerStoreModule;
-            expect(state.gameController?.colorCounterBoard).toEqual(newColorCounterBoard);
+            expect(state.gameController.colorCounterBoard).toEqual(newColorCounterBoard);
         });
     });
 
@@ -71,7 +71,7 @@ describe('GameControllerStore Vuex Module', () => {
             await store.dispatch('GameControllerStoreModule/setGameController', newGameController);
             const newGameBoard = new GameBoard(3, 3);
             await store.dispatch('GameControllerStoreModule/updateGameBoard', newGameBoard);
-            expect(store.state.GameControllerStoreModule.gameController?.gameBoard).toEqual(newGameBoard);
+            expect(store.state.GameControllerStoreModule.gameController.gameBoard).toEqual(newGameBoard);
         });
 
         it('updateColorCounterBoard should commit UPDATE_COLOR_COUNTER_BOARD', async () => {
@@ -83,7 +83,7 @@ describe('GameControllerStore Vuex Module', () => {
                 new ColorCounterType(PanelColor.WHITE, 'white', 4),
             ]);
             await store.dispatch('GameControllerStoreModule/updateColorCounterBoard', newColorCounterBoard);
-            expect(store.state.GameControllerStoreModule.gameController?.colorCounterBoard).toEqual(newColorCounterBoard);
+            expect(store.state.GameControllerStoreModule.gameController.colorCounterBoard).toEqual(newColorCounterBoard);
         });
     });
 
@@ -97,7 +97,7 @@ describe('GameControllerStore Vuex Module', () => {
 
         it('colorCounterBoardGetter should return color counter board', () => {
             const service = new InitializationService();
-            const expectedData = service.initialize().gameController?.colorCounterBoard;
+            const expectedData = service.initialize().gameController.colorCounterBoard;
             const state = store.state.GameControllerStoreModule;
             const getter = GameControllerStoreModule.getters!.colorCounterBoardGetter as any;
             const result = getter(state);

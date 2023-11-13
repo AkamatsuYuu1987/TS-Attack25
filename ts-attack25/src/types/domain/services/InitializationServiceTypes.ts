@@ -5,5 +5,5 @@ import GameController from '@/domain/GameController';
 export type InitializationResult = {
     gameBoard: GameBoard;
     colorCounterBoard: ColorCounterBoard;
-    gameController: GameController | null;
+    gameController: GameController;
 };
